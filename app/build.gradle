@@ -32,6 +32,9 @@ android {
     freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ObsoleteCoroutinesApi"
   }
+  packagingOptions {
+    exclude("META-INF/*.kotlin_module")
+  }
 }
 
 ext {
