@@ -38,7 +38,7 @@ android {
 }
 
 ext {
-  kotlinx_coroutines_version = "1.3.5"
+  kotlinx_coroutines_version = "1.3.7"
 }
 
 dependencies {

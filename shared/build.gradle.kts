@@ -63,7 +63,7 @@ kotlin {
 
   val serializationVersion = "0.20.0"
   val ktorVersion = "1.3.2"
-  val coroutinesVersion = "1.3.5"
+  val coroutinesVersion = "1.3.7"
   sourceSets {
     all {
       languageSettings.useExperimentalAnnotation("io.ktor.util.KtorExperimentalAPI")
@@ -76,6 +76,7 @@ kotlin {
         implementation(kotlin("reflect"))
         implementation("io.ktor:ktor-client-core:$ktorVersion")
         implementation("io.ktor:ktor-client-websockets:$ktorVersion")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutinesVersion")
         implementation(
             "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serializationVersion")
