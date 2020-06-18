@@ -1,39 +1,54 @@
 package com.coffeetrainlabs.kmpplayground
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import android.widget.TextView
 import chat.quill.data.Foo
 import chat.quill.data.FooProvider
+import com.coffeetrainlabs.kmpplayground.databinding.MainActivityBinding
+import flow.Flow
+import flow.KeyDispatcher
+import flow.KeyParceler
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
 
 class MainActivity : Activity() {
-  private val fooProvider = FooProvider()
-  private var job: Job? = null
+  private lateinit var binding: MainActivityBinding
+  private val flowKeyChanger = FlowKeyChanger(this)
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.main_activity)
-    findViewById<View>(R.id.click_me).setOnClickListener { fooProvider.onClick() }
+    binding = MainActivityBinding.inflate(layoutInflater)
+    setContentView(binding.root)
   }
 
-  override fun onResume() {
-    super.onResume()
-    job = mainThread.launch {
-      val fooChannel: ConflatedBroadcastChannel<List<Foo>> = fooProvider.fooChannel
-      fooChannel.consumeEach { fooList ->
-        findViewById<TextView>(R.id.foos).text = fooList.joinToString { foo -> foo.str }
-      }
+  override fun attachBaseContext(baseContext: Context) {
+    val wrappedContext = Flow.configure(baseContext, this)
+      .keyParceler(KotlinParceler())
+      .defaultKey(HomeScreen)
+      .dispatcher(KeyDispatcher.configure(this, flowKeyChanger).build())
+      .install()
+    super.attachBaseContext(wrappedContext)
+  }
+
+  override fun onBackPressed() {
+    if (!Flow.get(this).goBack()) {
+      super.onBackPressed()
     }
   }
+}
 
-  override fun onPause() {
-    job?.cancel()
-    job = null
-    super.onPause()
+class KotlinParceler : KeyParceler {
+  override fun toParcelable(key: Any): Parcelable {
+    return key as Parcelable
+  }
+
+  override fun toKey(parcelable: Parcelable): Any {
+    return parcelable
   }
 }
