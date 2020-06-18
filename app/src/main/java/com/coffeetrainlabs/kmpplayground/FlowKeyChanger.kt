@@ -2,12 +2,12 @@ package com.coffeetrainlabs.kmpplayground
 
 import android.content.Context
 import android.graphics.Color
-import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.transition.doOnEnd
 import androidx.core.view.children
+import androidx.transition.Transition.TransitionListener
+import androidx.transition.TransitionManager
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import flow.Direction
@@ -72,13 +72,27 @@ class FlowKeyChanger(activity: MainActivity) : KeyChanger {
     val transform = MaterialContainerTransform().apply {
       startView = from
       endView = to
-      pathMotion = MaterialArcMotion()
+      setPathMotion(MaterialArcMotion())
       scrimColor = Color.TRANSPARENT
       duration = 300L
-      doOnEnd {
-        println("ERICZ ${System.currentTimeMillis() - now}ms elapsed")
-        callback.onTraversalCompleted()
-      }
+      addListener(object : TransitionListener {
+        override fun onTransitionEnd(transition: androidx.transition.Transition) {
+          println("ERICZ ${System.currentTimeMillis() - now}ms elapsed")
+          callback.onTraversalCompleted()
+        }
+
+        override fun onTransitionResume(transition: androidx.transition.Transition) {
+        }
+
+        override fun onTransitionPause(transition: androidx.transition.Transition) {
+        }
+
+        override fun onTransitionCancel(transition: androidx.transition.Transition) {
+        }
+
+        override fun onTransitionStart(transition: androidx.transition.Transition) {
+        }
+      })
     }
     TransitionManager.beginDelayedTransition(screenContainer, transform)
   }
