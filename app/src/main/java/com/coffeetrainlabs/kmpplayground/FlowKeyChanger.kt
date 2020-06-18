@@ -17,6 +17,11 @@ import flow.Direction.REPLACE
 import flow.KeyChanger
 import flow.State
 import flow.TraversalCallback
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.launch
 
 class FlowKeyChanger(activity: MainActivity) : KeyChanger {
   private val screenContainer by lazy { activity.findViewById(R.id.screen_container) as ViewGroup }
@@ -36,7 +41,11 @@ class FlowKeyChanger(activity: MainActivity) : KeyChanger {
         val newView = buildIncomingView(to, incomingContexts, incomingState)
         screenContainer.addView(newView)
         if (from is HomeScreen && to is DetailScreen && clickedRow != null) {
-          doContainerTransform(clickedRow, newView, callback)
+          immediateMainThread.launch {
+            val transformObservable = doContainerTransform(clickedRow, newView)
+            val finished = transformObservable.single()
+            callback.onTraversalCompleted()
+          }
         } else {
           callback.onTraversalCompleted()
         }
@@ -46,7 +55,12 @@ class FlowKeyChanger(activity: MainActivity) : KeyChanger {
         val homeScreenView = screenContainer.getChildAt(0) as? HomeScreenView
         val clickedRow = homeScreenView?.clickedRow
         if (from is DetailScreen && to is HomeScreen && clickedRow != null && detailScreen != null) {
-          doContainerTransform(detailScreen, clickedRow, callback)
+          immediateMainThread.launch {
+            val transformObservable =doContainerTransform(detailScreen, clickedRow)
+            val finished = transformObservable.single()
+            callback.onTraversalCompleted()
+            homeScreenView.clickedRowIdx = null
+          }
           // This kicks off the transition.  Because magic.
           screenContainer.removeViewAt(screenContainer.childCount - 1)
         } else {
@@ -67,7 +81,8 @@ class FlowKeyChanger(activity: MainActivity) : KeyChanger {
     }
   }
 
-  private fun doContainerTransform(from: View, to: View, callback: TraversalCallback) {
+  private fun doContainerTransform(from: View, to: View): Flow<Boolean> {
+    val flow = Channel<Boolean>()
     val now = System.currentTimeMillis()
     val transform = MaterialContainerTransform().apply {
       startView = from
@@ -78,7 +93,8 @@ class FlowKeyChanger(activity: MainActivity) : KeyChanger {
       addListener(object : TransitionListener {
         override fun onTransitionEnd(transition: androidx.transition.Transition) {
           println("ERICZ ${System.currentTimeMillis() - now}ms elapsed")
-          callback.onTraversalCompleted()
+          flow.offer(true)
+          flow.close()
         }
 
         override fun onTransitionResume(transition: androidx.transition.Transition) {
@@ -88,6 +104,8 @@ class FlowKeyChanger(activity: MainActivity) : KeyChanger {
         }
 
         override fun onTransitionCancel(transition: androidx.transition.Transition) {
+          flow.offer(false)
+          flow.close()
         }
 
         override fun onTransitionStart(transition: androidx.transition.Transition) {
@@ -95,6 +113,7 @@ class FlowKeyChanger(activity: MainActivity) : KeyChanger {
       })
     }
     TransitionManager.beginDelayedTransition(screenContainer, transform)
+    return flow.receiveAsFlow()
   }
 
   private fun buildIncomingView(to: Screen, contexts: Map<Any, Context>, state: State): View {
