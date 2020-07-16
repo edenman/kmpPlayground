@@ -4,13 +4,14 @@ plugins {
   id("com.android.library")
   kotlin("multiplatform") // This uses the kotlin version from parent project.
   id("kotlin-android-extensions")
-  kotlin("plugin.serialization") version "1.3.72"
+  kotlin("plugin.serialization") version "1.4-M3"
 }
 
 repositories {
   google()
   mavenCentral()
   jcenter()
+  maven("https://dl.bintray.com/kotlin/kotlin-eap")
 }
 
 android {
@@ -61,14 +62,15 @@ kotlin {
 
   android()
 
-  val serializationVersion = "0.20.0"
-  val ktorVersion = "1.3.2"
-  val coroutinesVersion = "1.3.7"
+  val serializationVersion = "0.20.0-1.4-M3"
+  val ktorVersion = "1.3.2-1.4-M3"
+  val coroutinesVersion = "1.3.7-1.4-M3"
   sourceSets {
     all {
       languageSettings.useExperimentalAnnotation("io.ktor.util.KtorExperimentalAPI")
       languageSettings.useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
       languageSettings.useExperimentalAnnotation("kotlinx.serialization.UnstableDefault")
+      languageSettings.useExperimentalAnnotation("kotlinx.serialization.UnsafeSerializationApi")
     }
     val commonMain by getting {
       dependencies {
@@ -77,9 +79,8 @@ kotlin {
         implementation("io.ktor:ktor-client-core:$ktorVersion")
         implementation("io.ktor:ktor-client-websockets:$ktorVersion")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutinesVersion")
         implementation(
-            "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serializationVersion")
+            "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serializationVersion")
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:$serializationVersion")
       }
     }
@@ -92,23 +93,16 @@ kotlin {
     val iosMain by getting {
       dependencies {
         implementation("io.ktor:ktor-client-ios:$ktorVersion")
-        implementation("io.ktor:ktor-client-websockets-native:$ktorVersion")
-        implementation(
-            "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$serializationVersion")
       }
     }
     val jsMain by getting {
       dependencies {
         implementation("io.ktor:ktor-client-js:$ktorVersion")
-        implementation("io.ktor:ktor-client-websockets-js:$ktorVersion")
-        implementation(
-            "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$serializationVersion")
       }
     }
     val androidMain by getting {
       dependencies {
         implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serializationVersion")
       }
     }
     val androidTest by getting {
