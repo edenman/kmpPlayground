@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.children
 import androidx.transition.Transition.TransitionListener
 import androidx.transition.TransitionManager
 import com.google.android.material.transition.MaterialArcMotion
@@ -20,8 +19,6 @@ import flow.TraversalCallback
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.single
-import kotlinx.coroutines.launch
 
 class FlowKeyChanger(activity: MainActivity) : KeyChanger {
   private val screenContainer by lazy { activity.findViewById(R.id.screen_container) as ViewGroup }
@@ -32,46 +29,21 @@ class FlowKeyChanger(activity: MainActivity) : KeyChanger {
     incomingContexts: MutableMap<Any, Context>,
     callback: TraversalCallback
   ) {
-    val from = outgoingState?.getKey<Screen>()
     val to = incomingState.getKey<Screen>()
     when (direction) {
       FORWARD -> {
-        val currentScreenView = screenContainer.children.lastOrNull()
-        val clickedRow = (currentScreenView as? HomeScreenView)?.clickedRow
         val newView = buildIncomingView(to, incomingContexts, incomingState)
         screenContainer.addView(newView)
-        if (from is HomeScreen && to is DetailScreen && clickedRow != null) {
-          immediateMainThread.launch {
-            val transformObservable = doContainerTransform(clickedRow, newView)
-            val finished = transformObservable.single()
-            callback.onTraversalCompleted()
-          }
-        } else {
-          callback.onTraversalCompleted()
-        }
+        callback.onTraversalCompleted()
       }
       BACKWARD -> {
-        val detailScreen = screenContainer.children.lastOrNull() as? DetailScreenView
-        val homeScreenView = screenContainer.getChildAt(0) as? HomeScreenView
-        val clickedRow = homeScreenView?.clickedRow
-        if (from is DetailScreen && to is HomeScreen && clickedRow != null && detailScreen != null) {
-          immediateMainThread.launch {
-            val transformObservable =doContainerTransform(detailScreen, clickedRow)
-            val finished = transformObservable.single()
-            callback.onTraversalCompleted()
-            homeScreenView.clickedRowIdx = null
-          }
-          // This kicks off the transition.  Because magic.
-          screenContainer.removeViewAt(screenContainer.childCount - 1)
-        } else {
-          screenContainer.removeViewAt(screenContainer.childCount - 1)
-          if (screenContainer.childCount == 0) {
-            // We're going backwards and we didn't have old view state: add the incoming view
-            val incomingView = buildIncomingView(to, incomingContexts, incomingState)
-            screenContainer.addView(incomingView)
-          }
-          callback.onTraversalCompleted()
+        screenContainer.removeViewAt(screenContainer.childCount - 1)
+        if (screenContainer.childCount == 0) {
+          // We're going backwards and we didn't have old view state: add the incoming view
+          val incomingView = buildIncomingView(to, incomingContexts, incomingState)
+          screenContainer.addView(incomingView)
         }
+        callback.onTraversalCompleted()
       }
       REPLACE -> {
         screenContainer.removeAllViews()

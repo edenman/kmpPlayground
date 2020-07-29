@@ -1,4 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.coffeetrainlabs.kmpplayground.HomeScreenView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+      <com.google.android.material.appbar.AppBarLayout
+          android:id="@+id/app_bar_layout"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:liftOnScroll="true">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+          <TextView
+              android:id="@+id/title"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="32dp"
+              android:fontFamily="sans-serif-medium"
+              android:text="I'm A Title"
+              android:textColor="@color/purple200"
+              android:textSize="20sp" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+          <com.google.android.material.tabs.TabItem
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:text="LATEST" />
+
+          <com.google.android.material.tabs.TabItem
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:text="ALL" />
+        </com.google.android.material.tabs.TabLayout>
+      </com.google.android.material.appbar.AppBarLayout>
+
+      <androidx.viewpager2.widget.ViewPager2
+          android:id="@+id/foo_view_pager"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@color/white"
+          app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+      <ViewStub
+          android:id="@+id/taco_stub"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:inflatedId="@+id/taco_inflated"
+          android:layout="@layout/burrito_view"
+          app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+      <ViewStub
+          android:id="@+id/burrito_stub"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:inflatedId="@+id/burrito_inflated"
+          android:layout="@layout/burrito_view"
+          app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav" />
+
+</com.coffeetrainlabs.kmpplayground.HomeScreenView>

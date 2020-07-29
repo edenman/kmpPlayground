@@ -1,0 +1,5 @@
+<resources>
+  <item name="actual_list_latest" type="id"/>
+  <item name="actual_list_all" type="id"/>
+  <item name="actual_list_burrito" type="id"/>
+</resources>

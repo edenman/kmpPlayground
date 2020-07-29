@@ -2,8 +2,14 @@ package com.coffeetrainlabs.kmpplayground
 
 import android.os.Looper
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewStub
+import androidx.annotation.IdRes
+import androidx.core.view.children
 import androidx.viewbinding.ViewBinding
+import androidx.viewpager2.widget.ViewPager2
 import chat.quill.util.require
+import com.google.android.material.tabs.TabLayout
 import flow.Flow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -63,4 +69,72 @@ private class LazyMainThreadImpl<out T>(initializer: () -> T) : Lazy<T> {
 
   override fun toString(): String =
     if (isInitialized()) value.toString() else "Lazy value not initialized yet."
+}
+
+
+fun ViewGroup.showOnlyChildFadeIn(showMe: View, @IdRes vararg hideViews: Int) {
+  children.forEach { child ->
+    if (child.alpha != 0f && hideViews.contains(child.id)) {
+      child.animate().cancel()
+      child.alpha = 0f
+    } else if (child.alpha != 1f && child === showMe) {
+      child.animate().alpha(1f)
+    }
+  }
+}
+
+fun <T : View> View.findOrInflate(stub: ViewStub, onInflate: ((T) -> Unit)? = null): T {
+  @Suppress("UNCHECKED_CAST")
+  return stubViewIfInflated<T>(stub) ?: run {
+    val inflated = stub.inflate() as T
+    onInflate?.invoke(inflated)
+    return@run inflated
+  }
+}
+
+fun <T : View> View.stubViewIfInflated(stub: ViewStub): T? {
+  @Suppress("UNCHECKED_CAST")
+  return findViewById<T>(stub.inflatedId)
+}
+
+// Adapted from TabLayoutMediator.  We don't want the tab-text-updating behavior of that class but
+// we do want to synchronize the scrolling+indicator behavior.
+fun synchronizeTabsAndViewPager(tabs: TabLayout, viewPager: ViewPager2) {
+  tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+    override fun onTabReselected(tab: TabLayout.Tab) {
+    }
+
+    override fun onTabUnselected(tab: TabLayout.Tab) {
+    }
+
+    override fun onTabSelected(tab: TabLayout.Tab) {
+      viewPager.setCurrentItem(tab.position, true)
+    }
+  })
+  viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+    private var previousScrollState = ViewPager2.SCROLL_STATE_IDLE
+    private var scrollState = ViewPager2.SCROLL_STATE_IDLE
+
+    override fun onPageScrollStateChanged(state: Int) {
+      previousScrollState = scrollState
+      scrollState = state
+    }
+
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+      // Update the indicator if we're not settling after being idle. This is caused
+      // from a setCurrentItem() call and will be handled by an animation from
+      // onPageSelected() instead.
+      val updateIndicator =
+        !(scrollState == ViewPager2.SCROLL_STATE_SETTLING && previousScrollState == ViewPager2.SCROLL_STATE_IDLE)
+      if (updateIndicator) {
+        tabs.setScrollPosition(position, positionOffset, false, updateIndicator)
+      }
+    }
+
+    override fun onPageSelected(position: Int) {
+      if (tabs.selectedTabPosition != position && position < tabs.tabCount) {
+        tabs.selectTab(tabs.getTabAt(position))
+      }
+    }
+  })
 }

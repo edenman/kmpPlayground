@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="AlwaysShowAction">
+  <item
+      android:id="@+id/foo_tab"
+      android:title="Foo"
+      app:showAsAction="always" />
+  <item
+      android:id="@+id/taco_tab"
+      android:title="Taco"
+      app:showAsAction="always" />
+  <item
+      android:id="@+id/burrito_tab"
+      android:title="Burrito"
+      app:showAsAction="always" />
+</menu>

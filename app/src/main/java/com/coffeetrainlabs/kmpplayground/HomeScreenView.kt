@@ -2,14 +2,15 @@ package com.coffeetrainlabs.kmpplayground
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.TypedValue
-import android.view.View
+import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.view.children
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.widget.LinearLayout
+import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
-import flow.Flow
+import androidx.viewpager2.widget.ViewPager2
+import com.coffeetrainlabs.kmpplayground.FooPagerAdapter.PageType.ALL
+import com.coffeetrainlabs.kmpplayground.FooPagerAdapter.PageType.LATEST
+import com.coffeetrainlabs.kmpplayground.databinding.HomeScreenBinding
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -17,48 +18,125 @@ object HomeScreen : Screen {
   override fun layoutResId() = R.layout.home_screen
 }
 
-class HomeScreenView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
+class HomeScreenView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
   init {
-    adapter = HomeScreenAdapter(context)
-    layoutManager = LinearLayoutManager(context)
+    orientation = VERTICAL
   }
 
-  var clickedRowIdx: Int? = null
+  private val binding by viewBinding(HomeScreenBinding::bind)
 
-  val clickedRow: View?
-    get() {
-      return children.map { child -> child as? TextView }
-        .filterNotNull()
-        .find { textView -> textView.tag == clickedRowIdx }
-    }
-
-  inner class HomeScreenAdapter(private val context: Context) : Adapter<ViewHolder>() {
-    private val items = (0..80).toList()
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-      val textView = TextView(context)
-      textView.minHeight = 120
-      textView.setPadding(40, 40, 40, 40)
-      textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22f)
-      return RowViewHolder(textView)
-    }
-
-    override fun getItemCount(): Int = items.size
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-      (holder as RowViewHolder).set(items[position])
-    }
-
-    inner class RowViewHolder(private val textView: TextView) : RecyclerView.ViewHolder(textView) {
-      fun set(value: Int) {
-        textView.text = value.toString()
-        textView.tag = value
-        textView.setOnClickListener {
-          clickedRowIdx = value
-          Flow.get(textView).set(DetailScreen(value))
-        }
-
+  override fun onFinishInflate() {
+    super.onFinishInflate()
+    binding.fooViewPager.isUserInputEnabled = false
+    binding.fooViewPager.adapter = FooPagerAdapter(context, binding.fooViewPager)
+    binding.fooViewPager.registerOnPageChangeCallback(object :
+      ViewPager2.OnPageChangeCallback() {
+      override fun onPageSelected(position: Int) {
+        setLiftOnScrollIDForFooTab(position)
       }
+    })
+    binding.fooViewPager.offscreenPageLimit = 1
+    synchronizeTabsAndViewPager(binding.tabs, binding.fooViewPager)
+    binding.bottomNav.setOnNavigationItemSelectedListener { item ->
+      // The visibility management here is super-nasty because
+      // 1) CoordinatorLayout requires appbar_scrolling_view_behavior views to be direct siblings
+      //    of the CoordinatorLayout to get the scroll behavior we want (lift on scroll).
+      // 2) The transition we want is that old views disappear immediately and new ones fade in.
+      // 3) But TabLayout doesn't support alpha animations so it just has to pop in.
+      // 4) We're using ViewStubs for the taco/burrito tabs so we don't prematurely inflate them
+      val showAsSelected: Boolean
+      when (item.itemId) {
+        R.id.foo_tab -> {
+          binding.mainContent.showOnlyChildFadeIn(
+            binding.fooViewPager,
+            R.id.taco_inflated,
+            R.id.burrito_inflated
+          )
+          showAsSelected = true
+          binding.tabs.visibility = VISIBLE
+          binding.title.setText("Foo")
+          val position = binding.tabs.selectedTabPosition
+          setLiftOnScrollIDForFooTab(position)
+        }
+        R.id.taco_tab -> {
+          showAsSelected = true
+          binding.tabs.visibility = GONE
+          val teamView =
+            findOrInflate<BurritoListView>(binding.tacoStub) { view -> view.alpha = 0f }
+          binding.mainContent.showOnlyChildFadeIn(
+            teamView,
+            R.id.foo_view_pager,
+            R.id.burrito_inflated
+          )
+          binding.title.setText("Taco")
+          binding.appBarLayout.liftOnScrollTargetViewId = R.id.taco_inflated
+        }
+        R.id.burrito_tab -> {
+          showAsSelected = true
+          binding.tabs.visibility = GONE
+          val burritoView =
+            findOrInflate<BurritoListView>(binding.burritoStub) { view -> view.alpha = 0f }
+          binding.mainContent.showOnlyChildFadeIn(
+            burritoView,
+            R.id.foo_view_pager,
+            R.id.taco_inflated
+          )
+          binding.title.setText("Burrito")
+          binding.appBarLayout.liftOnScrollTargetViewId = R.id.burrito_inflated
+        }
+        else -> throw IllegalStateException("omfg")
+      }
+      return@setOnNavigationItemSelectedListener showAsSelected
     }
+  }
+
+  private fun setLiftOnScrollIDForFooTab(position: Int) {
+    val listViewID = FooPagerAdapter.PageType.values()[position].listViewID
+    binding.appBarLayout.liftOnScrollTargetViewId = listViewID
   }
 }
+
+class FooPagerAdapter(context: Context, viewPager: ViewPager2) :
+  RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+  init {
+    setHasStableIds(true)
+  }
+
+  enum class PageType(@IdRes val listViewID: Int) {
+    LATEST(R.id.actual_list_latest),
+    ALL(R.id.actual_list_all)
+  }
+
+  private val inflater = LayoutInflater.from(context)
+
+  override fun getItemViewType(position: Int): Int {
+    return position
+  }
+
+  private fun pageType(position: Int): PageType {
+    when (position) {
+      0 -> return LATEST
+      1 -> return ALL
+      else -> throw IllegalStateException("Invalid position $position")
+    }
+  }
+
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    val pageType = pageType(viewType)
+    val view = inflater.inflate(R.layout.burrito_view, parent, false) as BurritoListView
+    view.id = pageType.listViewID
+    return PageViewHolder(view)
+  }
+
+  override fun getItemCount(): Int {
+    return PageType.values().size
+  }
+
+  override fun getItemId(position: Int): Long = position.toLong()
+
+  override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+  }
+
+  class PageViewHolder(view: BurritoListView) : RecyclerView.ViewHolder(view)
+}
+
