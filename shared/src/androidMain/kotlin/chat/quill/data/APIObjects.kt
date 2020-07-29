@@ -1,14 +1,16 @@
 package chat.quill.data
 
-import kotlinx.serialization.Decoder
-import kotlinx.serialization.Encoder
+import android.annotation.SuppressLint
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.SerialDescriptor
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.json.JsonInput
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.buildClassSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.JsonDecoder
+import kotlinx.serialization.json.JsonEncoder
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonOutput
 import kotlinx.serialization.serializer
 import kotlin.reflect.KClass
 
@@ -23,11 +25,13 @@ sealed class Food {
 }
 
 fun <PARENT : Any, CHILD : PARENT> KClass<PARENT>.realNestedClasses(): List<KClass<CHILD>> {
+  @Suppress("UNCHECKED_CAST")
   return nestedClasses.filter { clazz -> clazz.simpleName != "Unknown" && clazz.simpleName != "Companion" } as List<KClass<CHILD>>
 }
 
 class FoodSerializer : OneOfSerializer<Food>(Food::class, Food.Unknown)
 
+@SuppressLint("DefaultLocale")
 open class OneOfSerializer<T : Any>(clazz: KClass<T>, private val unknown: T) : KSerializer<T> {
   private val fieldNameToSerializer by lazy {
     clazz.realNestedClasses()
@@ -36,12 +40,14 @@ open class OneOfSerializer<T : Any>(clazz: KClass<T>, private val unknown: T) : 
 
   override fun deserialize(decoder: Decoder): T {
     val input =
-      decoder as? JsonInput ?: throw SerializationException("This class can be loaded only by Json")
+      decoder as? JsonDecoder
+        ?: throw SerializationException("This class can be loaded only by Json")
     val tree =
-      input.decodeJson() as? JsonObject ?: throw SerializationException("Expected JsonObject")
+      input.decodeJsonElement() as? JsonObject
+        ?: throw SerializationException("Expected JsonObject")
     fieldNameToSerializer.forEach { (name, serializer) ->
       if (tree.containsKey(name)) {
-        return input.json.fromJson(serializer, tree)
+        return input.json.decodeFromJsonElement(serializer, tree)
       }
     }
     return unknown
@@ -49,12 +55,13 @@ open class OneOfSerializer<T : Any>(clazz: KClass<T>, private val unknown: T) : 
 
   override fun serialize(encoder: Encoder, value: T) {
     val output =
-      encoder as? JsonOutput ?: throw SerializationException("This class can be saved only by Json")
+      encoder as? JsonEncoder
+        ?: throw SerializationException("This class can be saved only by Json")
 
     @Suppress("UNCHECKED_CAST")
     val serializer = value::class.serializer() as KSerializer<T>
-    output.encodeJson(output.json.toJson(serializer, value))
+    output.encodeJsonElement(output.json.encodeToJsonElement(serializer, value))
   }
 
-  override val descriptor: SerialDescriptor = SerialDescriptor("OneOfSerializer")
+  override val descriptor: SerialDescriptor = buildClassSerialDescriptor("OneOfSerializer")
 }

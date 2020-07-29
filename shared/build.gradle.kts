@@ -4,7 +4,7 @@ plugins {
   id("com.android.library")
   kotlin("multiplatform") // This uses the kotlin version from parent project.
   id("kotlin-android-extensions")
-  kotlin("plugin.serialization") version "1.4-M3"
+  kotlin("plugin.serialization") version Versions.kotlin
 }
 
 repositories {
@@ -15,14 +15,14 @@ repositories {
 }
 
 android {
-  compileSdkVersion(29)
+  compileSdkVersion(Versions.compileSdkVersion)
 
   androidExtensions {
     isExperimental = true
   }
 
   defaultConfig {
-    minSdkVersion(28)
+    minSdkVersion(Versions.minSdkVersion)
   }
 
   // Android Gradle Plugin expects sources to be in the "main" folder.
@@ -62,26 +62,20 @@ kotlin {
 
   android()
 
-  val serializationVersion = "0.20.0-1.4-M3"
-  val ktorVersion = "1.3.2-1.4-M3"
-  val coroutinesVersion = "1.3.7-1.4-M3"
   sourceSets {
     all {
       languageSettings.useExperimentalAnnotation("io.ktor.util.KtorExperimentalAPI")
       languageSettings.useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
-      languageSettings.useExperimentalAnnotation("kotlinx.serialization.UnstableDefault")
       languageSettings.useExperimentalAnnotation("kotlinx.serialization.UnsafeSerializationApi")
     }
     val commonMain by getting {
       dependencies {
         implementation(kotlin("stdlib-common"))
         implementation(kotlin("reflect"))
-        implementation("io.ktor:ktor-client-core:$ktorVersion")
-        implementation("io.ktor:ktor-client-websockets:$ktorVersion")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-        implementation(
-            "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serializationVersion")
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:$serializationVersion")
+        implementation(Ktor.core)
+        implementation(Ktor.websockets)
+        implementation(Kotlin.coroutinesCore)
+        api(Kotlin.serializationRuntime)
       }
     }
     val commonTest by getting {
@@ -92,17 +86,26 @@ kotlin {
     }
     val iosMain by getting {
       dependencies {
-        implementation("io.ktor:ktor-client-ios:$ktorVersion")
+        implementation(SqlDelight.nativeDriver)
       }
     }
     val jsMain by getting {
       dependencies {
-        implementation("io.ktor:ktor-client-js:$ktorVersion")
+        implementation(SqlDelight.javascriptRuntime)
       }
     }
     val androidMain by getting {
       dependencies {
-        implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+        implementation(kotlin("stdlib"))
+        implementation(AndroidX.annotations)
+        implementation(AndroidX.coreKtx)
+        implementation(Square.phrase)
+        implementation(SqlDelight.jvmRuntime)
+        api(Ktor.clientOkhttp)
+        api(Square.okhttp)
+        implementation(Timber)
+        api(AndroidX.emoji)
+        implementation(UrlDetector)
       }
     }
     val androidTest by getting {

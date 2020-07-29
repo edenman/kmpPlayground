@@ -8,17 +8,17 @@ import kotlin.test.assertTrue
 class SerializationTest {
   @Test
   fun taco() {
-    val food = Json.parse(Food.serializer(), "{\"taco\":\"yes\"}")
+    val food = Json.decodeFromString(Food.serializer(), "{\"taco\":\"yes\"}")
     assertTrue(food is Food.Taco)
     assertEquals("yes", food.taco)
   }
 
   @Test
   fun burrito() {
-    val food = Json.parse(Food.serializer(), "{\"burrito\":\"yes\"}")
+    val food = Json.decodeFromString(Food.serializer(), "{\"burrito\":\"yes\"}")
     assertTrue(food is Food.Burrito)
     assertEquals("yes", food.burrito)
-    val toJson = Json.stringify(Food.serializer(), food)
+    val toJson = Json.encodeToString(Food.serializer(), food)
     assertEquals("{\"burrito\":\"yes\"}", toJson)
   }
 }
