@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.coffeetrainlabs.kmpplayground.HomeScreenView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent">
+
+  <ViewAnimator
+      android:id="@+id/home_animator"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+    <include layout="@layout/common_contents" android:id="@+id/contents_foo"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+  </ViewAnimator>
+</com.coffeetrainlabs.kmpplayground.HomeScreenView>

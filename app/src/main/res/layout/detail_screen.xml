@@ -4,9 +4,16 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-  <TextView
-      android:id="@+id/my_label"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-    />
+  <ViewAnimator
+      android:id="@+id/details_animator"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+    <include layout="@layout/common_contents" />
+
+    <TextView
+        android:id="@+id/my_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+  </ViewAnimator>
 </com.coffeetrainlabs.kmpplayground.DetailScreenView>
