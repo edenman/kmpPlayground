@@ -23,7 +23,7 @@ object Versions {
   const val kotlinCoroutines = "1.3.8-1.4.0-rc"
   const val ktor = "1.3.2-1.4.0-rc"
   const val ktx = "1.3.0"
-  const val material = "1.3.0-alpha01"
+  const val material = "1.3.0-alpha02"
   const val okhttp = "4.8.0"
   const val phrase = "1.1.0"
   const val sqlDelight = "1.3.0"

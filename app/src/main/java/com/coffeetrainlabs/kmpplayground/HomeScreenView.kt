@@ -28,7 +28,7 @@ class HomeScreenView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
   override fun onFinishInflate() {
     super.onFinishInflate()
     binding.fooViewPager.isUserInputEnabled = false
-    binding.fooViewPager.adapter = FooPagerAdapter(context, binding.fooViewPager)
+    binding.fooViewPager.adapter = FooPagerAdapter(context)
     binding.fooViewPager.registerOnPageChangeCallback(object :
       ViewPager2.OnPageChangeCallback() {
       override fun onPageSelected(position: Int) {
@@ -54,7 +54,7 @@ class HomeScreenView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
           )
           showAsSelected = true
           binding.tabs.visibility = VISIBLE
-          binding.title.setText("Foo")
+          binding.title.text = "Foo"
           val position = binding.tabs.selectedTabPosition
           setLiftOnScrollIDForFooTab(position)
         }
@@ -68,7 +68,7 @@ class HomeScreenView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
             R.id.foo_view_pager,
             R.id.burrito_inflated
           )
-          binding.title.setText("Taco")
+          binding.title.text = "Taco"
           binding.appBarLayout.liftOnScrollTargetViewId = R.id.taco_inflated
         }
         R.id.burrito_tab -> {
@@ -81,7 +81,7 @@ class HomeScreenView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
             R.id.foo_view_pager,
             R.id.taco_inflated
           )
-          binding.title.setText("Burrito")
+          binding.title.text = "Burrito"
           binding.appBarLayout.liftOnScrollTargetViewId = R.id.burrito_inflated
         }
         else -> throw IllegalStateException("omfg")
@@ -96,8 +96,7 @@ class HomeScreenView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
   }
 }
 
-class FooPagerAdapter(context: Context, viewPager: ViewPager2) :
-  RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FooPagerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
   init {
     setHasStableIds(true)
   }
