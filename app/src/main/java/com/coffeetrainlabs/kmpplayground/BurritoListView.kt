@@ -13,6 +13,7 @@ class BurritoListView(context: Context, attrs: AttributeSet?) : RecyclerView(con
   init {
     adapter = BurritoAdapter(context)
     layoutManager = LinearLayoutManager(context)
+    isNestedScrollingEnabled = true
   }
 
   class BurritoAdapter(private val context: Context) : RecyclerView.Adapter<ViewHolder>() {
