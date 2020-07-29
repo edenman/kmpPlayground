@@ -57,20 +57,18 @@
           android:background="@color/white"
           app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-      <ViewStub
-          android:id="@+id/taco_stub"
+      <com.coffeetrainlabs.kmpplayground.BurritoListView
+          android:id="@+id/taco_inflated"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
-          android:inflatedId="@+id/taco_inflated"
-          android:layout="@layout/burrito_view"
+          android:visibility="gone"
           app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-      <ViewStub
-          android:id="@+id/burrito_stub"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:inflatedId="@+id/burrito_inflated"
-          android:layout="@layout/burrito_view"
+      <com.coffeetrainlabs.kmpplayground.BurritoListView
+          android:id="@+id/burrito_inflated"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:visibility="gone"
           app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

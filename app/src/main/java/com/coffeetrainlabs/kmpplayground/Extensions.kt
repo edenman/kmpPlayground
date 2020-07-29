@@ -2,6 +2,8 @@ package com.coffeetrainlabs.kmpplayground
 
 import android.os.Looper
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.ViewStub
 import androidx.annotation.IdRes
@@ -74,10 +76,12 @@ private class LazyMainThreadImpl<out T>(initializer: () -> T) : Lazy<T> {
 
 fun ViewGroup.showOnlyChildFadeIn(showMe: View, @IdRes vararg hideViews: Int) {
   children.forEach { child ->
-    if (child.alpha != 0f && hideViews.contains(child.id)) {
+    if (child.visibility == VISIBLE && hideViews.contains(child.id)) {
       child.animate().cancel()
+      child.visibility = GONE
+    } else if (child.visibility == GONE && child === showMe) {
+      child.visibility = VISIBLE
       child.alpha = 0f
-    } else if (child.alpha != 1f && child === showMe) {
       child.animate().alpha(1f)
     }
   }

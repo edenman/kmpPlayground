@@ -61,28 +61,24 @@ class HomeScreenView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         R.id.taco_tab -> {
           showAsSelected = true
           binding.tabs.visibility = GONE
-          val teamView =
-            findOrInflate<BurritoListView>(binding.tacoStub) { view -> view.alpha = 0f }
           binding.mainContent.showOnlyChildFadeIn(
-            teamView,
+            binding.tacoInflated,
             R.id.foo_view_pager,
             R.id.burrito_inflated
           )
           binding.title.text = "Taco"
-          binding.appBarLayout.liftOnScrollTargetViewId = R.id.taco_inflated
+          // binding.appBarLayout.liftOnScrollTargetViewId = R.id.taco_inflated
         }
         R.id.burrito_tab -> {
           showAsSelected = true
           binding.tabs.visibility = GONE
-          val burritoView =
-            findOrInflate<BurritoListView>(binding.burritoStub) { view -> view.alpha = 0f }
           binding.mainContent.showOnlyChildFadeIn(
-            burritoView,
+            binding.burritoInflated,
             R.id.foo_view_pager,
             R.id.taco_inflated
           )
           binding.title.text = "Burrito"
-          binding.appBarLayout.liftOnScrollTargetViewId = R.id.burrito_inflated
+          // binding.appBarLayout.liftOnScrollTargetViewId = R.id.burrito_inflated
         }
         else -> throw IllegalStateException("omfg")
       }
@@ -92,7 +88,7 @@ class HomeScreenView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
 
   private fun setLiftOnScrollIDForFooTab(position: Int) {
     val listViewID = FooPagerAdapter.PageType.values()[position].listViewID
-    binding.appBarLayout.liftOnScrollTargetViewId = listViewID
+    // binding.appBarLayout.liftOnScrollTargetViewId = listViewID
   }
 }
 
