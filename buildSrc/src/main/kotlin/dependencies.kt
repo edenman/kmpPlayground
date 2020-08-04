@@ -26,7 +26,7 @@ object Versions {
   const val material = "1.3.0-alpha02"
   const val okhttp = "4.8.0"
   const val phrase = "1.1.0"
-  const val sqlDelight = "1.3.0"
+  const val sqlDelight = "1.4.0"
   const val squareFlow = "1.0.0-alpha3"
   const val timber = "4.7.1"
   const val urlDetector = "0.1.23"
