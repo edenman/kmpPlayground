@@ -1,0 +1,5 @@
+<resources>
+  <string name="app_name">KotlinMultiplatform Playground</string>
+  <string name="my_string_one">Taco</string>
+  <string name="my_string_two">Burrito</string>
+</resources>
