@@ -1,17 +1,24 @@
+import com.android.build.gradle.api.AndroidSourceSet
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
+import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
+import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
+repositories(globalRepoList)
 
 plugins {
   id("com.android.library")
   kotlin("multiplatform") // This uses the kotlin version from parent project.
   id("kotlin-android-extensions")
   kotlin("plugin.serialization") version Versions.kotlin
+  id("com.squareup.sqldelight")
 }
 
-repositories {
-  google()
-  mavenCentral()
-  jcenter()
-  maven("https://dl.bintray.com/kotlin/kotlin-eap")
+sqldelight {
+  database("Database") {
+    packageName = "chat.quill.data"
+  }
 }
 
 android {
@@ -29,15 +36,8 @@ android {
   // In order to keep our code structure consistent across platforms, we redefine
   // the sourceset directories here.
   sourceSets {
-    val main = getByName("main")
-    main.manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    main.java.srcDirs("src/androidMain/kotlin")
-    main.res.srcDirs("src/androidMain/res")
-
-    val test = getByName("test")
-    test.manifest.srcFile("src/androidTest/AndroidManifest.xml")
-    test.java.srcDirs("src/androidTest/kotlin")
-    test.res.srcDirs("src/androidTest/res")
+    repointSourceSetFolder("main", "src/androidMain")
+    repointSourceSetFolder("test", "src/androidTest")
   }
 }
 
@@ -47,10 +47,10 @@ kotlin {
   }
 
   val iOSTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
-      if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
-        ::iosArm64
-      else
-        ::iosX64
+    if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
+      ::iosArm64
+    else
+      ::iosX64
 
   iOSTarget("ios") {
     binaries {
@@ -65,8 +65,13 @@ kotlin {
   sourceSets {
     all {
       languageSettings.useExperimentalAnnotation("io.ktor.util.KtorExperimentalAPI")
+      languageSettings.useExperimentalAnnotation("kotlin.ExperimentalStdlibApi")
+      languageSettings.useExperimentalAnnotation("kotlin.ExperimentalMultiplatform")
       languageSettings.useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
+      languageSettings.useExperimentalAnnotation("kotlinx.coroutines.ObsoleteCoroutinesApi")
       languageSettings.useExperimentalAnnotation("kotlinx.serialization.UnsafeSerializationApi")
+      languageSettings.useExperimentalAnnotation("kotlinx.coroutines.FlowPreview")
+      languageSettings.useExperimentalAnnotation("kotlin.time.ExperimentalTime")
     }
     val commonMain by getting {
       dependencies {
@@ -116,6 +121,16 @@ kotlin {
   }
 }
 
+tasks.withType<Test> {
+  testLogging {
+    outputs.upToDateWhen { false }
+    showStandardStreams = true
+    events = setOf(FAILED, STANDARD_ERROR, STANDARD_OUT)
+    showExceptions = true
+    exceptionFormat = TestExceptionFormat.FULL
+  }
+}
+
 val packForXcode by tasks.creating(Sync::class) {
   val targetDir = File(buildDir, "xcode-frameworks")
 
@@ -124,8 +139,8 @@ val packForXcode by tasks.creating(Sync::class) {
   // variables set by Xcode build
   val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
   val framework = kotlin.targets
-      .getByName<KotlinNativeTarget>("ios")
-      .binaries.getFramework(mode)
+    .getByName<KotlinNativeTarget>("ios")
+    .binaries.getFramework(mode)
   inputs.property("mode", mode)
   dependsOn(framework.linkTask)
 
@@ -141,4 +156,15 @@ val packForXcode by tasks.creating(Sync::class) {
         "./gradlew \$@\n")
     gradlew.setExecutable(true)
   }
+}
+
+@Suppress("DEPRECATION")
+fun NamedDomainObjectContainer<AndroidSourceSet>.repointSourceSetFolder(
+  sourceSetName: String,
+  folderName: String
+) {
+  val test = getByName(sourceSetName)
+  test.manifest.srcFile("$folderName/AndroidManifest.xml")
+  test.java.srcDirs("$folderName/kotlin")
+  test.res.srcDirs("$folderName/res")
 }

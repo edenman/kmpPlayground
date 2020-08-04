@@ -43,11 +43,11 @@ expect fun CharSequence.italic(): CharSequence
 
 expect fun CharSequence.withColor(color: ColorValue): CharSequence
 
-// // This is clunky but I don't want to add hundreds of custom images to the enum.
-// sealed class PotentiallyDynamicImageRef {
-//   data class Fixed(val imageRef: ImageRef) : PotentiallyDynamicImageRef()
-//   data class Dynamic(val name: String, val fallback: ImageRef) : PotentiallyDynamicImageRef()
-// }
+// This is clunky but I don't want to add hundreds of custom images to the enum.
+sealed class PotentiallyDynamicImageRef {
+  data class Fixed(val imageRef: ImageRef) : PotentiallyDynamicImageRef()
+  data class Dynamic(val name: String, val fallback: ImageRef) : PotentiallyDynamicImageRef()
+}
 
 expect enum class ImageRef {
   MyImageOne,

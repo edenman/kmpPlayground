@@ -77,6 +77,7 @@ object Square {
 }
 
 object SqlDelight {
+  const val gradlePlugin = "com.squareup.sqldelight:gradle-plugin:${Versions.sqlDelight}"
   const val nativeDriver = "com.squareup.sqldelight:native-driver:${Versions.sqlDelight}"
   const val javascriptRuntime = "com.squareup.sqldelight:runtime-js:${Versions.sqlDelight}"
   const val jvmRuntime = "com.squareup.sqldelight:runtime-jvm:${Versions.sqlDelight}"

@@ -1,6 +1,5 @@
 package chat.quill.resources
 
-import platform.UIKit.UIColor
 import kotlin.math.min
 
 actual class Resources
@@ -39,8 +38,7 @@ actual enum class ColorRef {
   MyColorTwo,
 }
 
-// TODO this can probably be done better
-actual class ColorValue(val uiColor: UIColor)
+actual class ColorValue
 
 /**
  * hue: 0-360
@@ -48,23 +46,15 @@ actual class ColorValue(val uiColor: UIColor)
  * light: 0-100
  */
 actual fun colorValueFromHSL(hue: Int, saturation: Int, light: Int): ColorValue {
-  val hueF: Double = hue.toDouble() / 360f
-  val originalSaturation: Double = saturation.toDouble() / 100f
-  val lightness: Double = light.toDouble() / 100f
-
-  val brightnessF: Double = lightness + originalSaturation * min(lightness, 1 - lightness)
-  val saturationF: Double = if (brightnessF == 0.0) 0.0 else 2 - 2 * lightness / brightnessF
-
-  val uiColor = UIColor(hue = hueF, saturation = saturationF, brightness = brightnessF, alpha = 1.0)
-  return ColorValue(uiColor)
+  return ColorValue() // TODO
 }
 
 actual fun ColorRef.toColorValue(resources: Resources): ColorValue {
-  return ColorValue(UIColor()) // TODO
+  return ColorValue() // TODO
 }
 
 actual fun ColorValue.withAlpha(alpha: Float): ColorValue {
-  return ColorValue(uiColor.colorWithAlphaComponent(alpha.toDouble()))
+  return ColorValue()
 }
 
 actual fun getUIMode(resources: Resources): UIMode {
