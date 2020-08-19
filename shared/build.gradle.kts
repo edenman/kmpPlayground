@@ -80,7 +80,7 @@ kotlin {
         implementation(Ktor.core)
         implementation(Ktor.websockets)
         implementation(Kotlin.coroutinesCore)
-        api(Kotlin.serializationRuntime)
+        api(Kotlin.serializationCore)
       }
     }
     val commonTest by getting {

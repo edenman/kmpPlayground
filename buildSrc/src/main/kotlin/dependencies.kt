@@ -18,10 +18,10 @@ object Versions {
   const val androidXEmoji = "1.1.0"
   const val coil = "0.11.0"
   const val junit = "4.13"
-  const val kotlin = "1.4.0-rc"
-  const val kotlinSerialization = "1.0-M1-1.4.0-rc"
-  const val kotlinCoroutines = "1.3.8-1.4.0-rc"
-  const val ktor = "1.3.2-1.4.0-rc"
+  const val kotlin = "1.4.0"
+  const val kotlinSerialization = "1.0.0-RC"
+  const val kotlinCoroutines = "1.3.9"
+  const val ktor = "1.4.0"
   const val ktx = "1.3.0"
   const val material = "1.3.0-alpha02"
   const val okhttp = "4.8.0"
@@ -58,8 +58,8 @@ object Kotlin {
     "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
   const val coroutinesAndroid =
     "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
-  const val serializationRuntime =
-    "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.kotlinSerialization}"
+  const val serializationCore =
+    "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.kotlinSerialization}"
   const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
   const val stdlibJDK7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
 }
