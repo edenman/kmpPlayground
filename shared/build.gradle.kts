@@ -69,6 +69,7 @@ kotlin {
       languageSettings.useExperimentalAnnotation("kotlin.ExperimentalMultiplatform")
       languageSettings.useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
       languageSettings.useExperimentalAnnotation("kotlinx.coroutines.ObsoleteCoroutinesApi")
+      languageSettings.useExperimentalAnnotation("kotlinx.serialization.InternalSerializationApi")
       languageSettings.useExperimentalAnnotation("kotlinx.serialization.UnsafeSerializationApi")
       languageSettings.useExperimentalAnnotation("kotlinx.coroutines.FlowPreview")
       languageSettings.useExperimentalAnnotation("kotlin.time.ExperimentalTime")
@@ -80,7 +81,7 @@ kotlin {
         implementation(Ktor.core)
         implementation(Ktor.websockets)
         implementation(Kotlin.coroutinesCore)
-        api(Kotlin.serializationCore)
+        api(Kotlin.serializationJson)
       }
     }
     val commonTest by getting {
@@ -116,6 +117,7 @@ kotlin {
     val androidTest by getting {
       dependencies {
         implementation(kotlin("test-junit"))
+        implementation(Kotlin.coroutinesTest)
       }
     }
   }

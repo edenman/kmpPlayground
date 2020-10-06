@@ -1,13 +1,22 @@
 package chat.quill.data
 
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import chat.quill.util.mapOnThread
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class FooProvider {
-  val fooChannel = ConflatedBroadcastChannel<List<Foo>>(listOf())
+  val fooFlow = MutableStateFlow<List<Foo>>(listOf())
 
   fun onClick() {
-    val existing = fooChannel.value
-    fooChannel.offer(existing.toMutableList().plus(Foo("omg${existing.size}")))
+    val existing = fooFlow.value
+    fooFlow.value = existing.toMutableList().plus(Foo("omg${existing.size}"))
+  }
+
+  fun observe(coroutineScope: CoroutineScope): Flow<String> {
+    return fooFlow.mapOnThread(coroutineScope) { list ->
+      return@mapOnThread list[-1].toString()
+    }
   }
 }
 
