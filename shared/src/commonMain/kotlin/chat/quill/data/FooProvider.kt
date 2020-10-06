@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
 class FooProvider {
-  val fooFlow = MutableStateFlow<List<Foo>>(listOf())
+  private val fooFlow = MutableStateFlow<List<Foo>>(listOf())
 
   fun onClick() {
     val existing = fooFlow.value
@@ -28,6 +28,8 @@ class FooProvider {
 data class Foo(val str: String)
 
 // Adapted from https://github.com/Kotlin/kotlinx.coroutines/issues/1147#issuecomment-639397185
-fun <T, R> Flow<T>.mapOnThread(thread: CoroutineScope, transform: suspend (T) -> R): Flow<R> = this
-  .map { thread.async { transform(it) } }
-  .map { it.await() }
+fun <T, R> Flow<T>.mapOnThread(thread: CoroutineScope, transform: suspend (T) -> R): Flow<R> {
+  return this
+    .map { input -> thread.async { transform(input) } }
+    .map { deferred -> deferred.await() }
+}

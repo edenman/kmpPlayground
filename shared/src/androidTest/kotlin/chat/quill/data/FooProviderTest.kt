@@ -14,19 +14,14 @@ class FooProviderTest {
   fun foo() {
     val fooProvider = FooProvider()
     runBlockingTest {
-      println("OMGOMGOMGOMGOMGOMGOMG")
       val states = mutableListOf<String>()
       val stateSubscription = launch {
-        println("inside launch, calling observe")
         val scope = CoroutineScope(Dispatchers.Unconfined)
         fooProvider.observe(scope)
           .collect { state ->
-            println("observable fired, adding to states")
             states.add(state)
           }
-        println("collect done")
       }
-      println("launch block done")
       assertEquals(1, states.size)
       assertEquals("", states[0])
       stateSubscription.cancel()
