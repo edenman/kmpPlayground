@@ -7,6 +7,11 @@
   <TextView
       android:id="@+id/my_label"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-    />
+      android:layout_height="wrap_content" />
+
+  <com.coffeetrainlabs.kmpplayground.MyAvatarView
+      android:id="@+id/my_avatar"
+      android:layout_width="60dp"
+      android:layout_height="60dp"
+      android:layout_marginTop="16dp" />
 </com.coffeetrainlabs.kmpplayground.DetailScreenView>

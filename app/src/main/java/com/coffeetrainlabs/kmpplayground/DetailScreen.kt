@@ -21,5 +21,6 @@ class DetailScreenView(context: Context, attrs: AttributeSet?) : LinearLayout(co
   override fun onFinishInflate() {
     super.onFinishInflate()
     binding.myLabel.text = currentScreen<DetailScreen>().value.toString()
+    binding.myAvatar.set(MyAvatarModel.Url(""))
   }
 }
