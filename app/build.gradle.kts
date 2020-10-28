@@ -5,12 +5,12 @@ plugins {
 }
 
 android {
-  compileSdkVersion(29)
+  compileSdkVersion(Versions.compileSdkVersion)
 
   defaultConfig {
     applicationId = "com.coffeetrainlabs.kmpplayground"
-    minSdkVersion(28)
-    targetSdkVersion(29)
+    minSdkVersion(Versions.minSdkVersion)
+    targetSdkVersion(Versions.targetSdkVersion)
     versionCode = 1
     versionName = "1.0"
   }
@@ -22,11 +22,12 @@ android {
     }
   }
   compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = Versions.javaVersion
+    targetCompatibility = Versions.javaVersion
   }
   kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = Versions.jvmTarget
+    languageVersion = Versions.kotlinLanguageVersion
     freeCompilerArgs = freeCompilerArgs +
         listOf(
           "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",

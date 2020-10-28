@@ -4,6 +4,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
 import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 repositories(globalRepoList)
 
@@ -30,6 +31,7 @@ android {
 
   defaultConfig {
     minSdkVersion(Versions.minSdkVersion)
+    targetSdkVersion(Versions.targetSdkVersion)
   }
 
   // Android Gradle Plugin expects sources to be in the "main" folder.
@@ -38,6 +40,10 @@ android {
   sourceSets {
     repointSourceSetFolder("main", "src/androidMain")
     repointSourceSetFolder("test", "src/androidTest")
+  }
+  compileOptions {
+    sourceCompatibility = Versions.javaVersion
+    targetCompatibility = Versions.javaVersion
   }
 }
 
@@ -130,6 +136,14 @@ tasks.withType<Test> {
     events = setOf(FAILED, STANDARD_ERROR, STANDARD_OUT)
     showExceptions = true
     exceptionFormat = TestExceptionFormat.FULL
+  }
+}
+
+// Couldn't figure out how to apply this on the android block directly so here it goes.
+tasks.withType(KotlinCompile::class).all {
+  kotlinOptions {
+    jvmTarget = Versions.jvmTarget
+    languageVersion = Versions.kotlinLanguageVersion
   }
 }
 

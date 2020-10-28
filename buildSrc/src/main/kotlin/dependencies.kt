@@ -1,3 +1,4 @@
+import org.gradle.api.JavaVersion
 import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.kotlin.dsl.maven
 
@@ -9,36 +10,40 @@ val globalRepoList: RepositoryHandler.() -> Unit = {
 }
 
 object Versions {
+  val javaVersion = JavaVersion.VERSION_1_8
+  const val jvmTarget = "1.8"
+  const val kotlinLanguageVersion = "1.4"
   const val compileSdkVersion = 29
   const val minSdkVersion = 28
   const val targetSdkVersion = 29
 
-  const val androidxAnnotations = "1.1.0"
-  const val androidxAppcompat = "1.1.0"
-  const val androidXEmoji = "1.1.0"
-  const val coil = "0.11.0"
-  const val junit = "4.13"
+  const val androidxAnnotations = "1.2.0-alpha01"
+  const val androidxAppcompat = "1.3.0-alpha02"
+  const val androidxCore = "1.5.0-alpha04"
+  const val androidXEmoji = "1.2.0-alpha01"
+  const val coil = "1.0.0"
   const val kotlin = "1.4.10"
   const val kotlinSerialization = "1.0.0-RC2"
   const val kotlinCoroutines = "1.3.9"
   const val ktor = "1.4.1"
-  const val ktx = "1.3.0"
-  const val material = "1.3.0-alpha02"
-  const val okhttp = "4.8.0"
+  const val material = "1.3.0-alpha03"
+  const val okhttp = "4.10.0-RC1"
   const val phrase = "1.1.0"
-  const val sqlDelight = "1.4.0"
+  const val sqlDelight = "1.4.4"
   const val squareFlow = "1.0.0-alpha3"
   const val timber = "4.7.1"
   const val urlDetector = "0.1.23"
+  const val xmlAPIs = "1.4.01"
 }
 
 const val Timber = "com.jakewharton.timber:timber:${Versions.timber}"
 const val UrlDetector = "io.github.url-detector:url-detector:${Versions.urlDetector}"
+const val XmlAPIs = "xml-apis:xml-apis:${Versions.xmlAPIs}"
 
 object AndroidX {
   const val annotations = "androidx.annotation:annotation:${Versions.androidxAnnotations}"
   const val appcompat = "androidx.appcompat:appcompat:${Versions.androidxAppcompat}"
-  const val coreKtx = "androidx.core:core-ktx:${Versions.ktx}"
+  const val coreKtx = "androidx.core:core-ktx:${Versions.androidxCore}"
   const val emoji = "androidx.emoji:emoji-bundled:${Versions.androidXEmoji}"
 }
 
