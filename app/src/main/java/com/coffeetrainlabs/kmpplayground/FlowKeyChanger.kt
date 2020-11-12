@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.transition.Transition.TransitionListener
 import androidx.transition.TransitionManager
+import app.cash.exhaustive.Exhaustive
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import flow.Direction
@@ -30,6 +31,7 @@ class FlowKeyChanger(activity: MainActivity) : KeyChanger {
     callback: TraversalCallback
   ) {
     val to = incomingState.getKey<Screen>()
+    @Exhaustive
     when (direction) {
       FORWARD -> {
         val newView = buildIncomingView(to, incomingContexts, incomingState)

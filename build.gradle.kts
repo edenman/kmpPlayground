@@ -8,6 +8,7 @@ buildscript {
     classpath("com.android.tools.build:gradle:4.2.0-alpha15")
     classpath(kotlin("gradle-plugin", version = Versions.kotlin))
     classpath(SqlDelight.gradlePlugin)
+    classpath(Square.exhaustiveWhen)
   }
 }
 

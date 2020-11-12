@@ -5,9 +5,11 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+import app.cash.exhaustive.Exhaustive
 
 class FooProvider {
   private val fooFlow = MutableStateFlow<List<Foo>>(listOf())
+  private val foodFlow = MutableStateFlow<Food>(Food.Taco("taco"))
 
   fun onClick() {
     val existing = fooFlow.value
@@ -20,6 +22,17 @@ class FooProvider {
         return@mapOnThread list[-1].toString()
       } catch (e: Throwable) {
         throw e
+      }
+    }
+  }
+
+  fun doSomething(): Flow<String> {
+    return foodFlow.map { food ->
+      @Exhaustive
+      when (food) {
+        is Food.Burrito -> return@map "burr"
+        is Food.Taco -> return@map "tacooooooos"
+        Food.Unknown -> TODO()
       }
     }
   }

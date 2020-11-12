@@ -9,6 +9,7 @@ sealed class Food {
 
   @Serializable
   data class Burrito(val burrito: String) : Food()
+
   object Unknown : Food()
 }
 

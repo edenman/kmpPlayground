@@ -22,6 +22,7 @@ object Versions {
   const val androidxCore = "1.5.0-alpha04"
   const val androidXEmoji = "1.2.0-alpha01"
   const val coil = "1.0.0"
+  const val exhaustiveWhen = "0.1.1"
   const val kotlin = "1.4.10"
   const val kotlinSerialization = "1.0.0-RC2"
   const val kotlinCoroutines = "1.3.9"
@@ -78,6 +79,7 @@ object Ktor {
 }
 
 object Square {
+  const val exhaustiveWhen = "app.cash.exhaustive:exhaustive-gradle:${Versions.exhaustiveWhen}"
   const val flow = "com.squareup.flow:flow:${Versions.squareFlow}"
   const val phrase = "com.squareup.phrase:phrase:${Versions.phrase}"
   const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"

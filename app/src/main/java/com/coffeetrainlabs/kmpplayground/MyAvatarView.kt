@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import app.cash.exhaustive.Exhaustive
 import coil.load
 import com.coffeetrainlabs.kmpplayground.databinding.MyAvatarContentsBinding
 
@@ -20,6 +21,7 @@ class MyAvatarView(context: Context, attrs: AttributeSet?) : FrameLayout(context
   }
 
   fun set(model: MyAvatarModel) {
+    @Exhaustive
     when (model) {
       is MyAvatarModel.Url -> {
         binding.label.visibility = GONE

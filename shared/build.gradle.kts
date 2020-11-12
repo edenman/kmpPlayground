@@ -14,6 +14,7 @@ plugins {
   id("kotlin-android-extensions")
   kotlin("plugin.serialization") version Versions.kotlin
   id("com.squareup.sqldelight")
+  id("app.cash.exhaustive")
 }
 
 sqldelight {
