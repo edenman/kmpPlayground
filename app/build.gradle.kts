@@ -41,9 +41,6 @@ android {
     isExperimental = true
     features = setOf("parcelize")
   }
-  packagingOptions {
-    exclude("META-INF/*.kotlin_module")
-  }
 }
 
 dependencies {
