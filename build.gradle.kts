@@ -5,7 +5,7 @@ buildscript {
   dependencies {
     classpath(XmlAPIs) // Workaround for https://github.com/cashapp/sqldelight/issues/1343
     // Leaving this one un-templated so the AS update mechanism is able to auto-update it.
-    classpath("com.android.tools.build:gradle:7.0.0-alpha02")
+    classpath("com.android.tools.build:gradle:7.0.0-alpha03")
     classpath(kotlin("gradle-plugin", version = Versions.kotlin))
     classpath(SqlDelight.gradlePlugin)
   }
