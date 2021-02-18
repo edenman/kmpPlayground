@@ -27,6 +27,7 @@ object Versions {
   const val kotlinCoroutines = "1.3.9"
   const val ktor = "1.4.1"
   const val material = "1.3.0-alpha03"
+  const val multiplatformSwiftPlugin = "2.0.3"
   const val okhttp = "4.10.0-RC1"
   const val phrase = "1.1.0"
   const val sqlDelight = "1.4.4"
