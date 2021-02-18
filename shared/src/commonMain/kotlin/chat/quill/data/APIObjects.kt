@@ -2,6 +2,7 @@
 package chat.quill.data
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import kotlinx.serialization.UseSerializers
 
 @Serializable(with = FoodSerializer::class)
@@ -25,6 +26,7 @@ data class Dogs(
   val allUniverseSquad: Boolean = false,
   val goat: Boolean = false,
 ) {
+  @Transient
   val theyreAllGoodDogs = good ||
       veryGood ||
       theBest ||
