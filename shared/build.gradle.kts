@@ -85,6 +85,9 @@ kotlin {
       languageSettings.useExperimentalAnnotation("kotlin.ExperimentalMultiplatform")
       languageSettings.useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
       languageSettings.useExperimentalAnnotation("kotlinx.coroutines.ObsoleteCoroutinesApi")
+      languageSettings.useExperimentalAnnotation(
+        "kotlinx.serialization.ExperimentalSerializationApi"
+      )
       languageSettings.useExperimentalAnnotation("kotlinx.serialization.InternalSerializationApi")
       languageSettings.useExperimentalAnnotation("kotlinx.serialization.UnsafeSerializationApi")
       languageSettings.useExperimentalAnnotation("kotlinx.coroutines.FlowPreview")

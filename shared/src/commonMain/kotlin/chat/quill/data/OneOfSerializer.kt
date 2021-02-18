@@ -17,6 +17,12 @@ import kotlin.reflect.KClass
 // TODO get rid of this when https://youtrack.jetbrains.com/issue/KT-25871 drops
 expect val <T : Any> KClass<T>.nestedClassesX: Collection<KClass<*>>
 
+expect val <T : Any> KClass<T>.primaryConstructor: QConstructor<T>
+
+interface QConstructor<T> {
+  fun invoke(vararg args: Any?): T
+}
+
 private fun <PARENT : Any, CHILD : PARENT> KClass<PARENT>.realNestedClasses(): List<KClass<CHILD>> {
   @Suppress("UNCHECKED_CAST")
   return nestedClassesX.filter { clazz ->
