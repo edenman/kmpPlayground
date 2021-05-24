@@ -6,16 +6,20 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class SerializationTest {
+  val json = Json {
+    useAlternativeNames = false
+  }
+
   @Test
   fun taco() {
-    val food = Json.decodeFromString(Food.serializer(), "{\"taco\":\"yes\"}")
+    val food = json.decodeFromString(Food.serializer(), "{\"taco\":\"yes\"}")
     assertTrue(food is Food.Taco)
     assertEquals("yes", food.taco)
   }
 
   @Test
   fun burrito() {
-    val food = Json.decodeFromString(Food.serializer(), "{\"burrito\":\"yes\"}")
+    val food = json.decodeFromString(Food.serializer(), "{\"burrito\":\"yes\"}")
     assertTrue(food is Food.Burrito)
     assertEquals("yes", food.burrito)
     val toJson = Json.encodeToString(Food.serializer(), food)
@@ -24,7 +28,7 @@ class SerializationTest {
 
   @Test
   fun container() {
-    val container = Json.decodeFromString(FoodContainer.serializer(), "{\"material\": \"plastic\", \"burrito\":\"yes\"}")
+    val container = json.decodeFromString(FoodContainer.serializer(), "{\"material\": \"plastic\", \"burrito\":\"yes\"}")
     val food = container.contents
     assertTrue(food is Food.Burrito)
     assertEquals("yes", food.burrito)

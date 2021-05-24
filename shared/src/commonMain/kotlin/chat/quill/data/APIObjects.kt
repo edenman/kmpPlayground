@@ -49,6 +49,5 @@ object FoodContainerSerializer :
 @Serializable(with = FoodContainerSerializer::class)
 data class FoodContainer(
   val material: String,
-  val size: Int,
   override val contents: Food,
 ) : HasOneOfContents<Food>
