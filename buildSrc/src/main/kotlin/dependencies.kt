@@ -4,16 +4,15 @@ import org.gradle.kotlin.dsl.maven
 
 val globalRepoList: RepositoryHandler.() -> Unit = {
   google()
-  jcenter()
   maven("https://plugins.gradle.org/m2/")
   maven("https://dl.bintray.com/kotlin/kotlin-eap")
 }
 
 object Versions {
-  val javaVersion = JavaVersion.VERSION_1_8
+  val javaVersion = JavaVersion.VERSION_11
   const val jvmTarget = "1.8"
-  const val kotlinLanguageVersion = "1.4"
-  const val compileSdkVersion = 29
+  const val kotlinLanguageVersion = "1.5"
+  const val compileSdkVersion = 30
   const val minSdkVersion = 28
   const val targetSdkVersion = 29
 
@@ -22,10 +21,10 @@ object Versions {
   const val androidxCore = "1.5.0-alpha04"
   const val androidXEmoji = "1.2.0-alpha03"
   const val coil = "1.1.1"
-  const val kotlin = "1.4.30-M1"
-  const val kotlinSerialization = "1.0.1"
-  const val kotlinCoroutines = "1.4.2"
-  const val ktor = "1.5.1"
+  const val kotlin = "1.5.0"
+  const val kotlinSerialization = "1.2.1"
+  const val kotlinCoroutines = "1.5.0"
+  const val ktor = "1.5.4"
   const val material = "1.3.0-alpha03"
   const val multiplatformSwiftPlugin = "2.0.3"
   const val okhttp = "4.10.0-RC1"

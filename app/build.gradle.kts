@@ -5,12 +5,12 @@ plugins {
 }
 
 android {
-  compileSdkVersion(Versions.compileSdkVersion)
+  compileSdk = Versions.compileSdkVersion
 
   defaultConfig {
     applicationId = "com.coffeetrainlabs.kmpplayground"
-    minSdkVersion(Versions.minSdkVersion)
-    targetSdkVersion(Versions.targetSdkVersion)
+    minSdk = Versions.minSdkVersion
+    targetSdk = Versions.targetSdkVersion
     versionCode = 1
     versionName = "1.0"
   }

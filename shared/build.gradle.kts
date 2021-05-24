@@ -1,4 +1,4 @@
-import com.android.build.gradle.api.AndroidSourceSet
+import com.android.build.api.dsl.AndroidSourceSet
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
@@ -39,8 +39,8 @@ android {
   // In order to keep our code structure consistent across platforms, we redefine
   // the sourceset directories here.
   sourceSets {
-    repointSourceSetFolder("main", "src/androidMain")
-    repointSourceSetFolder("test", "src/androidTest")
+    getByName("main").repointToFolder("src/androidMain")
+    getByName("test").repointToFolder("src/androidTest")
   }
   compileOptions {
     sourceCompatibility = Versions.javaVersion
@@ -168,13 +168,11 @@ multiplatformSwiftPackage {
   packageName("QuillKMPSharedData")
 }
 
-@Suppress("DEPRECATION")
-fun NamedDomainObjectContainer<AndroidSourceSet>.repointSourceSetFolder(
-  sourceSetName: String,
+
+fun AndroidSourceSet.repointToFolder(
   folderName: String
 ) {
-  val test = getByName(sourceSetName)
-  test.manifest.srcFile("$folderName/AndroidManifest.xml")
-  test.java.srcDirs("$folderName/kotlin")
-  test.res.srcDirs("$folderName/res")
+  manifest.srcFile("$folderName/AndroidManifest.xml")
+  java.srcDirs("$folderName/kotlin")
+  res.srcDirs("$folderName/res")
 }

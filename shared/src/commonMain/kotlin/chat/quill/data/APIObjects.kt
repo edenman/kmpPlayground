@@ -1,7 +1,9 @@
 @file:UseSerializers(QDateNullableSerializer::class, QDateSerializer::class)
 package chat.quill.data
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Serializer
 import kotlinx.serialization.Transient
 import kotlinx.serialization.UseSerializers
 
@@ -34,3 +36,19 @@ data class Dogs(
       allUniverseSquad ||
       goat
 }
+
+@Serializer(forClass = FoodContainer::class)
+private object DefaultFoodContainerSerializer
+
+object FoodContainerSerializer :
+  ContainsOneOfSerializer<FoodContainer, Food>(
+    Food::class,
+    DefaultFoodContainerSerializer
+  )
+
+@Serializable(with = FoodContainerSerializer::class)
+data class FoodContainer(
+  val material: String,
+  val size: Int,
+  override val contents: Food,
+) : HasOneOfContents<Food>
