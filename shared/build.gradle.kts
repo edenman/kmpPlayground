@@ -46,15 +46,6 @@ android {
     sourceCompatibility = Versions.javaVersion
     targetCompatibility = Versions.javaVersion
   }
-  // Workaround for https://youtrack.jetbrains.com/issue/KT-43944#focus=Comments-27-4612683.0-0
-  configurations {
-    create("androidTestApi")
-    create("androidTestDebugApi")
-    create("androidTestReleaseApi")
-    create("testApi")
-    create("testDebugApi")
-    create("testReleaseApi")
-  }
 }
 
 kotlin {
