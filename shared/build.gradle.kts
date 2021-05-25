@@ -24,15 +24,15 @@ sqldelight {
 }
 
 android {
-  compileSdkVersion(Versions.compileSdkVersion)
+  compileSdk = Versions.compileSdkVersion
 
   androidExtensions {
     isExperimental = true
   }
 
   defaultConfig {
-    minSdkVersion(Versions.minSdkVersion)
-    targetSdkVersion(Versions.targetSdkVersion)
+    minSdk = Versions.minSdkVersion
+    targetSdk = Versions.targetSdkVersion
   }
 
   // Android Gradle Plugin expects sources to be in the "main" folder.
@@ -159,6 +159,34 @@ multiplatformSwiftPackage {
   packageName("QuillKMPSharedData")
 }
 
+val packForXcode by tasks.creating(Sync::class) {
+  val targetDir = File(buildDir, "xcode-frameworks")
+
+  // selecting the right configuration for the iOS
+  // framework depending on the environment
+  // variables set by Xcode build
+  val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
+  val framework = kotlin.targets
+    .getByName<KotlinNativeTarget>("ios")
+    .binaries.getFramework(mode)
+  inputs.property("mode", mode)
+  dependsOn(framework.linkTask)
+
+  from({ framework.outputDirectory })
+  into(targetDir)
+
+  // generate a helpful ./gradlew wrapper with embedded Java path
+  doLast {
+    val gradlew = File(targetDir, "gradlew")
+    gradlew.writeText(
+      "#!/bin/bash\n" +
+          "export 'JAVA_HOME=${System.getProperty("java.home")}'\n" +
+          "cd '${rootProject.rootDir}'\n" +
+          "./gradlew \$@\n"
+    )
+    gradlew.setExecutable(true)
+  }
+}
 
 fun AndroidSourceSet.repointToFolder(
   folderName: String

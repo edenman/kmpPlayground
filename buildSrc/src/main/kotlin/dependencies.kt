@@ -6,6 +6,7 @@ val globalRepoList: RepositoryHandler.() -> Unit = {
   google()
   maven("https://plugins.gradle.org/m2/")
   maven("https://dl.bintray.com/kotlin/kotlin-eap")
+  maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
 }
 
 object Versions {
@@ -13,7 +14,7 @@ object Versions {
   const val jvmTarget = "1.8"
   const val kotlinLanguageVersion = "1.5"
   const val compileSdkVersion = 30
-  const val minSdkVersion = 28
+  const val minSdkVersion = 26
   const val targetSdkVersion = 29
 
   const val androidxAnnotations = "1.2.0-alpha01"
@@ -21,10 +22,10 @@ object Versions {
   const val androidxCore = "1.5.0-alpha04"
   const val androidXEmoji = "1.2.0-alpha03"
   const val coil = "1.1.1"
-  const val kotlin = "1.5.0"
+  const val kotlin = "1.5.10"
   const val kotlinSerialization = "1.2.1"
   const val kotlinCoroutines = "1.5.0"
-  const val ktor = "1.5.4"
+  const val ktor = "2.0.0-eap-132"
   const val material = "1.3.0-alpha03"
   const val multiplatformSwiftPlugin = "2.0.3"
   const val okhttp = "4.10.0-RC1"
