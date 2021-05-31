@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.coffeetrainlabs.kmpplayground.TacoView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_2x">
+
+  <EditText
+      android:id="@+id/field"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:imeOptions="actionSend"
+      android:inputType="textShortMessage|textMultiLine|textCapSentences"
+      android:maxLines="10"
+      android:padding="@dimen/padding"
+      android:textColor="#000000"
+      android:textColorHint="#AAAAAA"
+      android:textSize="16sp" />
+
+  <Button
+      android:id="@+id/add_emoji_button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Add Emoji" />
+</com.coffeetrainlabs.kmpplayground.TacoView>

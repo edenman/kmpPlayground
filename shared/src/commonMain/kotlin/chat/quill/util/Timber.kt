@@ -8,3 +8,5 @@ expect object Timber {
   fun d(message: String)
   fun v(message: String)
 }
+
+expect fun Any.objectIdentifier(): String

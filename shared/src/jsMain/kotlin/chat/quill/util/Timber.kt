@@ -20,3 +20,5 @@ actual object Timber {
   actual fun v(message: String) {
   }
 }
+
+actual fun Any.objectIdentifier(): String = TODO()

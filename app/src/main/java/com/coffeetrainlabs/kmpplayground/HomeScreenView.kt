@@ -61,10 +61,10 @@ class HomeScreenView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         R.id.taco_tab -> {
           showAsSelected = true
           binding.tabs.visibility = GONE
-          val teamView =
-            findOrInflate<BurritoListView>(binding.tacoStub) { view -> view.alpha = 0f }
+          val tacoView =
+            findOrInflate<TacoView>(binding.tacoStub) { view -> view.alpha = 0f }
           binding.mainContent.showOnlyChildFadeIn(
-            teamView,
+            tacoView,
             R.id.foo_view_pager,
             R.id.burrito_inflated
           )

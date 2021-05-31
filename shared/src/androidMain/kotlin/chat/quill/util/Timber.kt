@@ -25,3 +25,7 @@ actual object Timber {
     timber.log.Timber.v(message)
   }
 }
+
+actual fun Any.objectIdentifier(): String {
+  return System.identityHashCode(this).toString()
+}
