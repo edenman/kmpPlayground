@@ -62,4 +62,6 @@ dependencies {
   implementation(Coil.gif)
   implementation(Coil.svg)
   implementation(Coil.video)
+
+  implementation(Timber)
 }

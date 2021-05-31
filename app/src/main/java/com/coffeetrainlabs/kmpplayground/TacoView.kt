@@ -37,18 +37,14 @@ class TacoView(context: Context, attrs: AttributeSet?) : LinearLayout(context, a
               }
 
               override fun onSuccess(result: Drawable) {
-                Timber.d("ERICZ setting drawable on span ${span.objectIdentifier()}")
-                (result as? Animatable)?.let { animatable ->
-                  Timber.d("ERICZ calling start on animatable for span ${span.objectIdentifier()}")
-                  animatable.start()
-                  span.textView?.invalidate()
-                }
                 span.drawable = result
+                (result as? Animatable)?.start()
               }
             }
           )
           .build()
       )
+      span.textView = binding.field
       val withSpan = "X".withSpan(span) as SpannableStringBuilder
       binding.field.append(withSpan)
     }
@@ -72,13 +68,11 @@ fun Spannable.setSpan(span: Any, start: Int = 0, end: Int = length, withPriority
 // This is mostly a copy of ImageSpan's logic, with a few tweaks:
 // 1) No support for Uris, we know we're always setting a Drawable, so there's no need for WeakRef
 // 2) Hardcode the baseline alignment and fix the translation bug when there's no other text.
-// 3) Add MarkupSpan implementation for the markup representation of this image
-// 4) Allow setting the drawable asynchronously.
-class CustomImageSpan(private val size: Int) :
-  ReplacementSpan() {
+// 2) Allow setting the drawable asynchronously.
+class CustomImageSpan(private val size: Int) : ReplacementSpan() {
   var drawable: Drawable? = null
     set(value) {
-      Timber.d("ERICZ ${objectIdentifier()} got new drawable, invalidating textView ${textView?.objectIdentifier()}")
+      Timber.d("SPANZ ${objectIdentifier()} got new drawable, invalidating textView ${textView?.objectIdentifier()}")
       field = value!!
       value.setBounds(0, 0, size, size)
       textView?.invalidate()
@@ -104,10 +98,10 @@ class CustomImageSpan(private val size: Int) :
     fm: Paint.FontMetricsInt?,
   ): Int {
     val rect = drawable?.bounds ?: Rect(0, 0, size, size)
-    Timber.d("ERICZ Span ${objectIdentifier()}.getSize, gonna return ${rect.right}")
+    Timber.d("SPANZ Span ${objectIdentifier()}.getSize, gonna return ${rect.right}")
 
     if (fm != null) {
-      Timber.d("ERICZ Span ${objectIdentifier()}.getSize setting font metrics")
+      Timber.d("SPANZ Span ${objectIdentifier()}.getSize setting font metrics")
       fm.ascent = -rect.bottom
       fm.descent = 0
 
@@ -129,8 +123,7 @@ class CustomImageSpan(private val size: Int) :
     bottom: Int,
     paint: Paint,
   ) {
-    Timber.d("ERICZ Span ${objectIdentifier()}.draw with drawable? ${drawable != null}")
-    Timber.w(Throwable(), "ERICZ HI")
+    Timber.d("SPANZ Span ${objectIdentifier()}.draw with drawable? ${drawable != null}")
     drawable?.let { drawable ->
       // Short-circuit in the case where the _only_ thing in this TextView is this ImageSpan, and just
       // draw the image at 0,0.

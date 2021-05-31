@@ -9,6 +9,7 @@ import coil.decode.SvgDecoder
 import coil.fetch.VideoFrameFileFetcher
 import coil.fetch.VideoFrameUriFetcher
 import coil.util.DebugLogger
+import timber.log.Timber
 
 lateinit var imageLoader: ImageLoader
 
@@ -16,6 +17,7 @@ class PlaygroundApp : Application() {
   override fun onCreate() {
     super.onCreate()
     imageLoader = createImageLoader(this)
+    Timber.plant(Timber.DebugTree())
   }
 
   private fun createImageLoader(app: PlaygroundApp): ImageLoader {
