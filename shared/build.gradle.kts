@@ -11,7 +11,7 @@ repositories(globalRepoList)
 plugins {
   id("com.android.library")
   kotlin("multiplatform") // This uses the kotlin version from parent project.
-  id("kotlin-android-extensions")
+  id("kotlin-parcelize")
   kotlin("plugin.serialization") version Versions.kotlin
   id("com.squareup.sqldelight")
   id("com.chromaticnoise.multiplatform-swiftpackage") version Versions.multiplatformSwiftPlugin
@@ -25,10 +25,6 @@ sqldelight {
 
 android {
   compileSdk = Versions.compileSdkVersion
-
-  androidExtensions {
-    isExperimental = true
-  }
 
   defaultConfig {
     minSdk = Versions.minSdkVersion

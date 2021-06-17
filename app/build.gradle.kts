@@ -1,7 +1,7 @@
 plugins {
   id("com.android.application")
   id("kotlin-android")
-  id("kotlin-android-extensions")
+  id("kotlin-parcelize")
 }
 
 android {
@@ -36,10 +36,6 @@ android {
   }
   buildFeatures {
     viewBinding = true
-  }
-  androidExtensions {
-    isExperimental = true
-    features = setOf("parcelize")
   }
 }
 
