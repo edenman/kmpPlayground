@@ -22,7 +22,7 @@ object Versions {
   const val androidxCore = "1.5.0-alpha04"
   const val androidXEmoji = "1.2.0-alpha03"
   const val coil = "1.2.1"
-  const val kotlin = "1.5.20-M1"
+  const val kotlin = "1.5.20-RC"
   const val kotlinSerialization = "1.2.1"
   const val kotlinCoroutines = "1.5.0"
   const val ktor = "2.0.0-eap-132"
