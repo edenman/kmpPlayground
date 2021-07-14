@@ -48,6 +48,11 @@ class TacoView(context: Context, attrs: AttributeSet?) : LinearLayout(context, a
       val withSpan = "X".withSpan(span) as SpannableStringBuilder
       binding.field.append(withSpan)
     }
+    var numAttachments = 0
+    binding.field.onUriAttached = { uri ->
+      numAttachments++
+      binding.numAttachments.text = "Attachments: $numAttachments"
+    }
   }
 }
 

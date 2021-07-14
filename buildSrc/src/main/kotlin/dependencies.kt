@@ -17,10 +17,10 @@ object Versions {
   const val minSdkVersion = 26
   const val targetSdkVersion = 29
 
-  const val androidxAnnotations = "1.2.0-alpha01"
-  const val androidxAppcompat = "1.3.0-alpha02"
-  const val androidxCore = "1.5.0-alpha04"
-  const val androidXEmoji = "1.2.0-alpha03"
+  const val androidxAnnotations = "1.3.0-alpha01"
+  const val androidxAppcompat = "1.4.0-alpha03"
+  const val androidxCore = "1.7.0-alpha01"
+  const val androidxEmoji2 = "1.0.0-alpha03"
   const val coil = "1.2.1"
   const val kotlin = "1.5.20-RC"
   const val kotlinSerialization = "1.2.1"
@@ -45,7 +45,7 @@ object AndroidX {
   const val annotations = "androidx.annotation:annotation:${Versions.androidxAnnotations}"
   const val appcompat = "androidx.appcompat:appcompat:${Versions.androidxAppcompat}"
   const val coreKtx = "androidx.core:core-ktx:${Versions.androidxCore}"
-  const val emoji = "androidx.emoji:emoji-bundled:${Versions.androidXEmoji}"
+  const val emoji = "androidx.emoji2:emoji2-bundled:${Versions.androidxEmoji2}"
 }
 
 object Coil {

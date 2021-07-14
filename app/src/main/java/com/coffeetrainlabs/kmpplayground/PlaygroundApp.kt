@@ -2,6 +2,8 @@ package com.coffeetrainlabs.kmpplayground
 
 import android.app.Application
 import android.os.Build
+import androidx.emoji2.bundled.BundledEmojiCompatConfig
+import androidx.emoji2.text.EmojiCompat
 import coil.ImageLoader
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
@@ -13,11 +15,13 @@ import timber.log.Timber
 
 lateinit var imageLoader: ImageLoader
 
+@Suppress("unused") // AndroidManifest.xml references this
 class PlaygroundApp : Application() {
   override fun onCreate() {
     super.onCreate()
     imageLoader = createImageLoader(this)
     Timber.plant(Timber.DebugTree())
+    EmojiCompat.init(BundledEmojiCompatConfig(this))
   }
 
   private fun createImageLoader(app: PlaygroundApp): ImageLoader {

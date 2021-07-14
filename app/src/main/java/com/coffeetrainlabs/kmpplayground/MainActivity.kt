@@ -16,6 +16,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MainActivity : Activity() {
   private lateinit var binding: MainActivityBinding
@@ -23,6 +24,7 @@ class MainActivity : Activity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    Timber.d("ERIC HI")
     binding = MainActivityBinding.inflate(layoutInflater)
     setContentView(binding.root)
   }
