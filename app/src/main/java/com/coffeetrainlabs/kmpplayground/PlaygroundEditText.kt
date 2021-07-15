@@ -33,8 +33,9 @@ class PlaygroundEditText(context: Context, attrs: AttributeSet?) :
     return super.getText().require("No EditText.text?")
   }
 
-  override fun onReceiveContent(view: View, payload: ContentInfoCompat): ContentInfoCompat {
-    return onUriAttached?.let { onUriAttached ->
+  override fun onReceiveContent(view: View, payload: ContentInfoCompat): ContentInfoCompat? {
+    val uriHandler = onUriAttached
+    if (uriHandler != null) {
       val (hasUri: ContentInfoCompat?, remaining: ContentInfoCompat?) = payload.partition { item ->
         item.uri != null
       }
@@ -44,11 +45,12 @@ class PlaygroundEditText(context: Context, attrs: AttributeSet?) :
         Timber.d("onReceiveContent fired with $numItems uris, ${remaining?.clip?.itemCount} remain")
         (0 until numItems).forEach { idx ->
           clip.getItemAt(idx).uri?.let { uri ->
-            onUriAttached.invoke(uri)
+            uriHandler.invoke(uri)
           }
         }
       }
-      return@let remaining
-    } ?: payload
+      return remaining
+    }
+    return payload
   }
 }
