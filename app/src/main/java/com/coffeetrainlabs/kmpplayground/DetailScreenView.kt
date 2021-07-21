@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import com.coffeetrainlabs.kmpplayground.databinding.DetailScreenBinding
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class DetailScreen(val value: Int) : Screen {

@@ -11,7 +11,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.coffeetrainlabs.kmpplayground.FooPagerAdapter.PageType.ALL
 import com.coffeetrainlabs.kmpplayground.FooPagerAdapter.PageType.LATEST
 import com.coffeetrainlabs.kmpplayground.databinding.HomeScreenBinding
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 object HomeScreen : Screen {
