@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import chat.quill.data.FooProvider
 import com.coffeetrainlabs.kmpplayground.FooPagerAdapter.PageType.ALL
 import com.coffeetrainlabs.kmpplayground.FooPagerAdapter.PageType.LATEST
 import com.coffeetrainlabs.kmpplayground.databinding.HomeScreenBinding
@@ -19,6 +20,7 @@ object HomeScreen : Screen {
 }
 
 class HomeScreenView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+  private val fooProvider = FooProvider()
   init {
     orientation = VERTICAL
   }

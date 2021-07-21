@@ -7,22 +7,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
 class FooProvider {
-  private val fooFlow = MutableStateFlow<List<Foo>>(listOf())
+  private val fooFlow = MutableStateFlow(listOf(Foo("Add")))
 
   fun onClick() {
     val existing = fooFlow.value
     fooFlow.value = existing.toMutableList().plus(Foo("omg${existing.size}"))
   }
 
-  fun observe(coroutineScope: CoroutineScope): Flow<String> {
-    return fooFlow.mapOnThread(coroutineScope) { list ->
-      try {
-        return@mapOnThread list[-1].toString()
-      } catch (e: Throwable) {
-        throw e
-      }
-    }
-  }
+  fun observe(): Flow<List<String>> = fooFlow.map { foos -> foos.map { foo -> foo.str } }
 }
 
 data class Foo(val str: String)

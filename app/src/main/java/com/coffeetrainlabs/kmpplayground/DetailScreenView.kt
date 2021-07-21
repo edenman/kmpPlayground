@@ -7,7 +7,7 @@ import com.coffeetrainlabs.kmpplayground.databinding.DetailScreenBinding
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class DetailScreen(val value: Int) : Screen {
+data class DetailScreen(val value: String) : Screen {
   override fun layoutResId(): Int = R.layout.detail_screen
 }
 

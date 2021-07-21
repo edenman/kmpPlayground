@@ -4,19 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import android.view.View
-import android.widget.TextView
-import chat.quill.data.Foo
-import chat.quill.data.FooProvider
 import com.coffeetrainlabs.kmpplayground.databinding.MainActivityBinding
 import flow.Flow
 import flow.KeyDispatcher
 import flow.KeyParceler
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class MainActivity : Activity() {
   private lateinit var binding: MainActivityBinding
@@ -24,7 +15,6 @@ class MainActivity : Activity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    Timber.d("ERIC HI")
     binding = MainActivityBinding.inflate(layoutInflater)
     setContentView(binding.root)
   }

@@ -7,17 +7,41 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import chat.quill.data.FooProvider
 import flow.Flow
+import kotlinx.coroutines.flow.collect
+import timber.log.Timber
 
 class BurritoListView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
+  private val burritoAdapter = BurritoAdapter(context)
   init {
-    adapter = BurritoAdapter(context)
+    adapter = burritoAdapter
     layoutManager = LinearLayoutManager(context)
     isNestedScrollingEnabled = true
   }
 
-  class BurritoAdapter(private val context: Context) : RecyclerView.Adapter<ViewHolder>() {
-    private val items = (0..80).toList()
+  private val fooProvider = FooProvider()
+
+  override fun onAttachedToWindow() {
+    super.onAttachedToWindow()
+    observeUntilDetach(immediateMainThread) {
+      fooProvider.observe()
+        .collect { foos ->
+          burritoAdapter.set(foos)
+          if (foos.size == 3) {
+            Timber.d("HI I'm CRASHING ${foos[4]}")
+          }
+        }
+    }
+  }
+
+  inner class BurritoAdapter(private val context: Context) : RecyclerView.Adapter<ViewHolder>() {
+    private var items = listOf<String>()
+
+    fun set(foos: List<String>) {
+      items = foos
+      notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
       val textView = TextView(context)
@@ -34,11 +58,14 @@ class BurritoListView(context: Context, attrs: AttributeSet?) : RecyclerView(con
     }
 
     inner class RowViewHolder(private val textView: TextView) : ViewHolder(textView) {
-      fun set(value: Int) {
-        textView.text = value.toString()
-        textView.tag = value
+      fun set(value: String) {
+        textView.text = value
         textView.setOnClickListener {
-          Flow.get(textView).set(DetailScreen(value))
+          if (value == "Add") {
+            fooProvider.onClick()
+          } else {
+            Flow.get(textView).set(DetailScreen(value))
+          }
         }
       }
     }

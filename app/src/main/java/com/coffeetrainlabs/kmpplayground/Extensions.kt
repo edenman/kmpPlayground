@@ -1,5 +1,6 @@
 package com.coffeetrainlabs.kmpplayground
 
+import android.content.res.Resources
 import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,8 @@ import com.google.android.material.tabs.TabLayout
 import flow.Flow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 val immediateMainThread = CoroutineScope(Dispatchers.Main.immediate)
 val postToMainThread = CoroutineScope(Dispatchers.Main)
@@ -137,4 +140,63 @@ fun synchronizeTabsAndViewPager(tabs: TabLayout, viewPager: ViewPager2) {
       }
     }
   })
+}
+
+fun View.idName(): String = safeResourceName(id)
+
+fun View.safeResourceName(idToLookup: Int?): String {
+  return safeResourceName(resources, idToLookup)
+}
+
+private fun safeResourceName(resources: Resources, idToLookup: Int?): String {
+  if (idToLookup == null) {
+    return "null"
+  }
+  try {
+    return resources.getResourceEntryName(idToLookup)
+  } catch (e: Resources.NotFoundException) { // In case the ID doesn't exist.
+    return "NotFoundException($idToLookup)"
+  }
+}
+
+fun View.observeUntilDetach(
+  coroutineScope: CoroutineScope,
+  thing: suspend CoroutineScope.() -> Unit,
+): Job {
+  val job = coroutineScope.launch(block = thing)
+  when (val tag = tag) {
+    is ObserveUntilDetachListener -> tag.add(job)
+    null -> {
+      val observeUntilDetachListener = ObserveUntilDetachListener(mutableListOf(job))
+      addOnAttachStateChangeListener(observeUntilDetachListener)
+      this.tag = observeUntilDetachListener
+    }
+    else -> throw IllegalStateException("observeUntilDetach: ${idName()} already had a tag $tag")
+  }
+  (tag as? ObserveUntilDetachListener)?.add(job)
+  return job
+}
+
+fun View.unsubscribeAll() {
+  (tag as? ObserveUntilDetachListener)?.unsubscribeFromJobs()
+}
+
+private class ObserveUntilDetachListener(val jobs: MutableList<Job>) :
+  View.OnAttachStateChangeListener {
+  override fun onViewAttachedToWindow(view: View) {}
+
+  override fun onViewDetachedFromWindow(view: View) {
+    view.removeOnAttachStateChangeListener(this)
+    view.tag = null
+    unsubscribeFromJobs()
+  }
+
+  fun add(job: Job) {
+    jobs.add(job)
+  }
+
+  fun unsubscribeFromJobs() {
+    jobs.forEach { job -> job.cancel() }
+    jobs.clear()
+  }
 }
