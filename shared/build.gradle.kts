@@ -62,23 +62,27 @@ kotlin {
       }
     }
   }
-
+  jvm {
+    compilations.all {
+      kotlinOptions.jvmTarget = Versions.jvmTarget
+    }
+  }
   android()
 
   sourceSets {
     all {
-      languageSettings.useExperimentalAnnotation("io.ktor.util.KtorExperimentalAPI")
-      languageSettings.useExperimentalAnnotation("kotlin.ExperimentalStdlibApi")
-      languageSettings.useExperimentalAnnotation("kotlin.ExperimentalMultiplatform")
-      languageSettings.useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
-      languageSettings.useExperimentalAnnotation("kotlinx.coroutines.ObsoleteCoroutinesApi")
-      languageSettings.useExperimentalAnnotation(
+      languageSettings.optIn("io.ktor.util.KtorExperimentalAPI")
+      languageSettings.optIn("kotlin.ExperimentalStdlibApi")
+      languageSettings.optIn("kotlin.ExperimentalMultiplatform")
+      languageSettings.optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+      languageSettings.optIn("kotlinx.coroutines.ObsoleteCoroutinesApi")
+      languageSettings.optIn(
         "kotlinx.serialization.ExperimentalSerializationApi"
       )
-      languageSettings.useExperimentalAnnotation("kotlinx.serialization.InternalSerializationApi")
-      languageSettings.useExperimentalAnnotation("kotlinx.serialization.UnsafeSerializationApi")
-      languageSettings.useExperimentalAnnotation("kotlinx.coroutines.FlowPreview")
-      languageSettings.useExperimentalAnnotation("kotlin.time.ExperimentalTime")
+      languageSettings.optIn("kotlinx.serialization.InternalSerializationApi")
+      languageSettings.optIn("kotlinx.serialization.UnsafeSerializationApi")
+      languageSettings.optIn("kotlinx.coroutines.FlowPreview")
+      languageSettings.optIn("kotlin.time.ExperimentalTime")
     }
     val commonMain by getting {
       dependencies {
@@ -129,23 +133,6 @@ kotlin {
   }
 }
 
-tasks.withType<Test> {
-  testLogging {
-    outputs.upToDateWhen { false }
-    showStandardStreams = true
-    events = setOf(FAILED, STANDARD_ERROR, STANDARD_OUT)
-    showExceptions = true
-    exceptionFormat = TestExceptionFormat.FULL
-  }
-}
-
-// Couldn't figure out how to apply this on the android block directly so here it goes.
-tasks.withType(KotlinCompile::class).all {
-  kotlinOptions {
-    jvmTarget = Versions.jvmTarget
-    languageVersion = Versions.kotlinLanguageVersion
-  }
-}
 
 multiplatformSwiftPackage {
   swiftToolsVersion("5.3")

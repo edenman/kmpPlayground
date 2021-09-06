@@ -39,6 +39,15 @@ android {
   }
 }
 
+kotlin {
+  sourceSets.all {
+    languageSettings.apply {
+      languageVersion = Versions.kotlinLanguageVersion
+      progressiveMode = true // non-exhaustive whens should be an error
+    }
+  }
+}
+
 dependencies {
   implementation(project(":shared"))
 
