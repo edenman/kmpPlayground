@@ -7,6 +7,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
 class FooProvider {
+  sealed class FooState {
+    object Loading : FooState()
+    data class Loaded(val foos: List<String>) : FooState()
+  }
+
   private val fooFlow = MutableStateFlow(listOf(Foo("Add")))
 
   fun onClick() {
@@ -14,7 +19,7 @@ class FooProvider {
     fooFlow.value = existing.toMutableList().plus(Foo("omg${existing.size}"))
   }
 
-  fun observe(): Flow<List<String>> = fooFlow.map { foos -> foos.map { foo -> foo.str } }
+  fun observe(): Flow<FooState> = fooFlow.map { foos -> FooState.Loaded(foos.map { foo -> foo.str }) }
 }
 
 data class Foo(val str: String)

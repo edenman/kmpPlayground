@@ -26,10 +26,16 @@ class BurritoListView(context: Context, attrs: AttributeSet?) : RecyclerView(con
     super.onAttachedToWindow()
     observeUntilDetach(immediateMainThread) {
       fooProvider.observe()
-        .collect { foos ->
-          burritoAdapter.set(foos)
-          if (foos.size == 3) {
-            Timber.d("HI I'm CRASHING ${foos[4]}")
+        .collect { state ->
+          when (state) {
+            is FooProvider.FooState.Loaded -> {
+              val foos = state.foos
+              burritoAdapter.set(foos)
+              if (foos.size == 3) {
+                Timber.d("HI I'm CRASHING ${foos[4]}")
+              }
+            }
+            FooProvider.FooState.Loading -> Timber.d("HI I'm loading")
           }
         }
     }
