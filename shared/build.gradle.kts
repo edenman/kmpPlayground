@@ -76,11 +76,6 @@ kotlin {
       languageSettings.optIn("kotlin.ExperimentalMultiplatform")
       languageSettings.optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
       languageSettings.optIn("kotlinx.coroutines.ObsoleteCoroutinesApi")
-      languageSettings.optIn(
-        "kotlinx.serialization.ExperimentalSerializationApi"
-      )
-      languageSettings.optIn("kotlinx.serialization.InternalSerializationApi")
-      languageSettings.optIn("kotlinx.serialization.UnsafeSerializationApi")
       languageSettings.optIn("kotlinx.coroutines.FlowPreview")
       languageSettings.optIn("kotlin.time.ExperimentalTime")
     }
@@ -91,7 +86,7 @@ kotlin {
         implementation(Ktor.core)
         implementation(Ktor.websockets)
         implementation(Kotlin.coroutinesCore)
-        api(Kotlin.serializationJson)
+        implementation(Redacted.annotations)
       }
     }
     val commonTest by getting {

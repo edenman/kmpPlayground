@@ -2,6 +2,7 @@ package com.coffeetrainlabs.kmpplayground
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -9,6 +10,7 @@ import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import chat.quill.data.FooProvider
+import chat.quill.data.Foo
 import com.coffeetrainlabs.kmpplayground.FooPagerAdapter.PageType.ALL
 import com.coffeetrainlabs.kmpplayground.FooPagerAdapter.PageType.LATEST
 import com.coffeetrainlabs.kmpplayground.databinding.HomeScreenBinding
@@ -37,6 +39,7 @@ class HomeScreenView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         setLiftOnScrollIDForFooTab(position)
       }
     })
+    Log.d("OMG", "ERICZ: ${Foo("abcd")}")
     binding.fooViewPager.offscreenPageLimit = 1
     synchronizeTabsAndViewPager(binding.tabs, binding.fooViewPager)
     binding.bottomNav.setOnNavigationItemSelectedListener { item ->

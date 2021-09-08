@@ -23,7 +23,6 @@ object Versions {
   const val androidxEmoji2 = "1.0.0-alpha03"
   const val coil = "1.3.0"
   const val kotlin = "1.5.30"
-  const val kotlinSerialization = "1.2.1"
   const val kotlinCoroutines = "1.5.0"
   const val ktor = "2.0.0-eap-132"
   const val material = "1.4.0-rc01"
@@ -67,8 +66,6 @@ object Kotlin {
     "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
   const val coroutinesTest =
     "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}"
-  const val serializationJson =
-    "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kotlinSerialization}"
   const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
   const val stdlibJDK7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
 }
@@ -80,6 +77,7 @@ object Ktor {
 }
 
 object Redacted {
+  const val annotations = "dev.zacsweers.redacted:redacted-compiler-plugin-annotations:${Versions.redacted}"
   const val gradlePlugin = "dev.zacsweers.redacted:redacted-compiler-plugin-gradle:${Versions.redacted}"
 }
 

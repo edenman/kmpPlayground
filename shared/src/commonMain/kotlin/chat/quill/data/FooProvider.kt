@@ -1,5 +1,6 @@
 package chat.quill.data
 
+import dev.zacsweers.redacted.annotations.Redacted
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +23,7 @@ class FooProvider {
   fun observe(): Flow<FooState> = fooFlow.map { foos -> FooState.Loaded(foos.map { foo -> foo.str }) }
 }
 
-data class Foo(val str: String)
+data class Foo(@Redacted val str: String)
 
 // Adapted from https://github.com/Kotlin/kotlinx.coroutines/issues/1147#issuecomment-639397185
 fun <T, R> Flow<T>.mapOnThread(thread: CoroutineScope, transform: suspend (T) -> R): Flow<R> {
