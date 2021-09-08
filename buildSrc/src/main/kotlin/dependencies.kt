@@ -30,6 +30,7 @@ object Versions {
   const val multiplatformSwiftPlugin = "2.0.3"
   const val okhttp = "4.10.0-RC1"
   const val phrase = "1.1.0"
+  const val redacted = "0.8.0"
   const val sqlDelight = "1.4.4"
   const val squareFlow = "1.0.0-alpha3"
   const val timber = "5.0.1"
@@ -76,6 +77,10 @@ object Ktor {
   const val core = "io.ktor:ktor-client-core:${Versions.ktor}"
   const val websockets = "io.ktor:ktor-client-websockets:${Versions.ktor}"
   const val clientOkhttp = "io.ktor:ktor-client-okhttp:${Versions.ktor}"
+}
+
+object Redacted {
+  const val gradlePlugin = "dev.zacsweers.redacted:redacted-compiler-plugin-gradle:${Versions.redacted}"
 }
 
 object Square {

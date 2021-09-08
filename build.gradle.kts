@@ -11,6 +11,7 @@ buildscript {
     classpath("com.android.tools.build:gradle:7.1.0-alpha11")
     classpath(kotlin("gradle-plugin", version = Versions.kotlin))
     classpath(SqlDelight.gradlePlugin)
+    classpath(Redacted.gradlePlugin)
   }
 }
 
@@ -32,4 +33,6 @@ allprojects {
       minHeapSize = "1024m"
     }
   }
+
+  plugins.apply("dev.zacsweers.redacted")
 }
