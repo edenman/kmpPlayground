@@ -69,4 +69,11 @@ dependencies {
   implementation(Coil.video)
 
   implementation(Timber)
+
+  testImplementation(AndroidX.coreTesting)
+  testImplementation(AndroidX.testCore)
+  testImplementation(Google.truth)
+  testImplementation(JUnit)
+  testImplementation(Robolectric)
+  testImplementation(AndroidX.emojiBundled)
 }
