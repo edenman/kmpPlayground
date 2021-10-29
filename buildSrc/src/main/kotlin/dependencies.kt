@@ -13,18 +13,18 @@ object Versions {
   val javaVersion = JavaVersion.VERSION_1_8
   const val jvmTarget = "1.8"
   const val kotlinLanguageVersion = "1.6"
-  const val compileSdkVersion = 30
+  const val compileSdkVersion = 31
   const val minSdkVersion = 26
-  const val targetSdkVersion = 29
+  const val targetSdkVersion = 31
 
   const val androidxAnnotations = "1.3.0-alpha01"
-  const val androidxAppcompat = "1.4.0-alpha03"
+  const val androidxAppcompat = "1.4.0-beta01"
   const val androidxCore = "1.7.0-alpha01"
-  const val androidxEmoji2 = "1.0.0-alpha03"
+  const val androidxEmoji2 = "1.0.0-beta01"
   const val coil = "1.3.0"
-  const val kotlin = "1.5.30"
-  const val kotlinSerialization = "1.2.1"
-  const val kotlinCoroutines = "1.5.0"
+  const val kotlin = "1.6.0-RC"
+  const val kotlinSerialization = "1.3.0"
+  const val kotlinCoroutines = "1.5.2"
   const val ktor = "2.0.0-eap-132"
   const val material = "1.4.0-rc01"
   const val multiplatformSwiftPlugin = "2.0.3"
