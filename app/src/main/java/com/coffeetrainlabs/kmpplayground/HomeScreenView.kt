@@ -39,7 +39,7 @@ class HomeScreenView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     })
     binding.fooViewPager.offscreenPageLimit = 1
     synchronizeTabsAndViewPager(binding.tabs, binding.fooViewPager)
-    binding.bottomNav.setOnNavigationItemSelectedListener { item ->
+    binding.bottomNav.setOnItemSelectedListener { item ->
       // The visibility management here is super-nasty because
       // 1) CoordinatorLayout requires appbar_scrolling_view_behavior views to be direct siblings
       //    of the CoordinatorLayout to get the scroll behavior we want (lift on scroll).
@@ -88,7 +88,7 @@ class HomeScreenView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         }
         else -> throw IllegalStateException("omfg")
       }
-      return@setOnNavigationItemSelectedListener showAsSelected
+      return@setOnItemSelectedListener showAsSelected
     }
   }
 

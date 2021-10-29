@@ -65,7 +65,7 @@ class FlowKeyChanger(activity: MainActivity) : KeyChanger {
       addListener(object : TransitionListener {
         override fun onTransitionEnd(transition: androidx.transition.Transition) {
           println("SPANZ ${System.currentTimeMillis() - now}ms elapsed")
-          flow.offer(true)
+          flow.trySend(true)
           flow.close()
         }
 
@@ -76,7 +76,7 @@ class FlowKeyChanger(activity: MainActivity) : KeyChanger {
         }
 
         override fun onTransitionCancel(transition: androidx.transition.Transition) {
-          flow.offer(false)
+          flow.trySend(false)
           flow.close()
         }
 
