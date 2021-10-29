@@ -25,9 +25,6 @@ import java.util.concurrent.TimeUnit
   application = TestPlaygroundApp::class
 )
 class AndroidEmojiDetectorTest {
-  @get:Rule
-  val executorRule = InstantTaskExecutorRule()
-
   @Test
   fun emoji() {
     val app = ApplicationProvider.getApplicationContext<Application>()

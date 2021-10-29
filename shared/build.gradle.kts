@@ -128,7 +128,6 @@ kotlin {
       dependencies {
         implementation(kotlin("test-junit"))
         implementation(Kotlin.coroutinesTest)
-        implementation(AndroidX.emojiBundled)
       }
     }
   }
