@@ -13,16 +13,15 @@ class FooProviderTest {
   fun foo() {
     val fooProvider = FooProvider()
     runBlockingTest {
-      val states = mutableListOf<String>()
+      val states = mutableListOf<FooProvider.FooState>()
       val stateSubscription = launch {
-        val scope = CoroutineScope(Dispatchers.Unconfined)
-        fooProvider.observe(scope)
+        fooProvider.observe()
           .collect { state ->
             states.add(state)
           }
       }
       assertEquals(1, states.size)
-      assertEquals("", states[0])
+      assertEquals("", (states[0] as FooProvider.FooState.Loaded).foos[0])
       stateSubscription.cancel()
     }
   }
