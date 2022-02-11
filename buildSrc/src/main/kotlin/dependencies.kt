@@ -28,7 +28,7 @@ object Versions {
   const val kotlin = "1.6.0-RC"
   const val kotlinSerialization = "1.3.0"
   const val kotlinCoroutines = "1.5.2"
-  const val ktor = "2.0.0-eap-132"
+  const val ktor = "2.0.0-beta-1"
   const val material = "1.4.0-rc01"
   const val multiplatformSwiftPlugin = "2.0.3"
   const val okhttp = "4.10.0-RC1"
