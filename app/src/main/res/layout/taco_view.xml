@@ -29,4 +29,10 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="Add Emoji" />
+
+  <androidx.compose.ui.platform.ComposeView
+      android:id="@+id/compose_view"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+    />
 </com.coffeetrainlabs.kmpplayground.TacoView>

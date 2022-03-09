@@ -13,6 +13,9 @@ import android.text.style.ReplacementSpan
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnDetachedFromWindow
+import androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
 import chat.quill.util.Timber
 import chat.quill.util.objectIdentifier
 import coil.request.ImageRequest
@@ -52,6 +55,10 @@ class TacoView(context: Context, attrs: AttributeSet?) : LinearLayout(context, a
     binding.field.onUriAttached = { uri ->
       numAttachments++
       binding.numAttachments.text = "Attachments: $numAttachments"
+    }
+    binding.composeView.setViewCompositionStrategy(DisposeOnDetachedFromWindow)
+    binding.composeView.setContent {
+      Composabull()
     }
   }
 }

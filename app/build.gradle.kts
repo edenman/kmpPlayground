@@ -36,6 +36,10 @@ android {
   }
   buildFeatures {
     viewBinding = true
+    compose = true
+  }
+  composeOptions {
+    kotlinCompilerExtensionVersion = "1.1.1"
   }
 }
 
@@ -53,6 +57,11 @@ dependencies {
 
   implementation(AndroidX.coreKtx)
   implementation(AndroidX.appcompat)
+  implementation(AndroidX.composeAnimation)
+  implementation(AndroidX.composeMaterial)
+  implementation(AndroidX.composeUI)
+  implementation(AndroidX.composeUITooling)
+  implementation(AndroidX.composeFoundation)
 
   implementation(Google.materialUI)
 

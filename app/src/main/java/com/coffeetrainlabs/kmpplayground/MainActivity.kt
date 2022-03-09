@@ -4,12 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
+import androidx.appcompat.app.AppCompatActivity
 import com.coffeetrainlabs.kmpplayground.databinding.MainActivityBinding
 import flow.Flow
 import flow.KeyDispatcher
 import flow.KeyParceler
 
-class MainActivity : Activity() {
+class MainActivity : AppCompatActivity() {
   private lateinit var binding: MainActivityBinding
   private val flowKeyChanger = FlowKeyChanger(this)
 

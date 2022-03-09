@@ -19,13 +19,14 @@ object Versions {
 
   const val androidxAnnotations = "1.3.0-alpha01"
   const val androidxAppcompat = "1.4.0-beta01"
+  const val androidxCompose = "1.1.1"
   const val androidxCore = "1.7.0-alpha01"
   const val androidxEmoji2 = "1.0.0-beta01"
   const val androidxTestCore = "1.2.0"
   const val coil = "1.3.0"
   const val coreTesting = "2.1.0"
   const val junit = "4.13"
-  const val kotlin = "1.6.0-RC"
+  const val kotlin = "1.6.10"
   const val kotlinSerialization = "1.3.0"
   const val kotlinCoroutines = "1.5.2"
   const val ktor = "2.0.0-beta-1"
@@ -51,12 +52,17 @@ const val XmlAPIs = "xml-apis:xml-apis:${Versions.xmlAPIs}"
 object AndroidX {
   const val annotations = "androidx.annotation:annotation:${Versions.androidxAnnotations}"
   const val appcompat = "androidx.appcompat:appcompat:${Versions.androidxAppcompat}"
+  const val composeUI = "androidx.compose.ui:ui:${Versions.androidxCompose}"
+  const val composeMaterial = "androidx.compose.material:material:${Versions.androidxCompose}"
+  const val composeAnimation = "androidx.compose.animation:animation:${Versions.androidxCompose}"
+  const val composeUITooling = "androidx.compose.ui:ui-tooling:${Versions.androidxCompose}"
+  const val composeFoundation = "androidx.compose.foundation:foundation:${Versions.androidxCompose}"
+
   const val coreKtx = "androidx.core:core-ktx:${Versions.androidxCore}"
   const val coreTesting = "androidx.arch.core:core-testing:${Versions.coreTesting}"
   const val emoji = "androidx.emoji2:emoji2:${Versions.androidxEmoji2}"
   const val emojiBundled = "androidx.emoji2:emoji2-bundled:${Versions.androidxEmoji2}"
   const val testCore = "androidx.test:core:${Versions.androidxTestCore}"
-
 }
 
 object Coil {
