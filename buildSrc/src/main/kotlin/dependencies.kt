@@ -19,7 +19,7 @@ object Versions {
 
   const val androidxAnnotations = "1.3.0-alpha01"
   const val androidxAppcompat = "1.4.0-beta01"
-  const val androidxCompose = "1.1.1"
+  const val androidxCompose = "1.2.0-alpha04"
   const val androidxCore = "1.7.0-alpha01"
   const val androidxEmoji2 = "1.0.0-beta01"
   const val androidxTestCore = "1.2.0"

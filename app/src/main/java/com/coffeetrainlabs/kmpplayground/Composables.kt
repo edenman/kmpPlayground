@@ -11,13 +11,15 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun Composabull(text: String = "Here is some text this\n\nhas some newlines") {
-  Text(
-    text = text,
-    color = Color.White,
-    modifier = Modifier.background(Color.Black),
-    maxLines = 1,
-    overflow = TextOverflow.Ellipsis
-  )
+  Column {
+    Text(
+      text = text,
+      color = Color.White,
+      modifier = Modifier.background(Color.Black),
+      maxLines = 1,
+      overflow = TextOverflow.Ellipsis
+    )
+  }
 }
 
 @Preview
