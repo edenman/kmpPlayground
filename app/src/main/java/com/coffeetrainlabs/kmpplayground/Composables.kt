@@ -11,23 +11,34 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun Composabull(text: String = "Here is some text this\n\nhas some newlines") {
+  Text(
+    text = text,
+    color = Color.White,
+    modifier = Modifier.background(Color.Black),
+    maxLines = 1,
+    overflow = TextOverflow.Ellipsis
+  )
+}
+
+@Preview(widthDp = 300)
+@Composable
+fun WithColumnPreview() {
   Column {
-    Text(
-      text = text,
-      color = Color.White,
-      modifier = Modifier.background(Color.Black),
-      maxLines = 1,
-      overflow = TextOverflow.Ellipsis
-    )
+    Composabull()
   }
+}
+
+@Preview(widthDp = 300)
+@Composable
+fun WithoutColumnPreview() {
+  Composabull()
 }
 
 @Preview
 @Composable
-fun ComposabullPreview() {
+fun OtherEllipsizePreview() {
   Column {
     Composabull("Here is a single line of text with no wrap")
     Composabull("Here is some text that will surely wrap after one line but no newlines")
-    Composabull()
   }
 }
