@@ -4,6 +4,7 @@ import org.gradle.kotlin.dsl.maven
 
 val globalRepoList: RepositoryHandler.() -> Unit = {
   google()
+  mavenCentral()
   maven("https://plugins.gradle.org/m2/")
   maven("https://dl.bintray.com/kotlin/kotlin-eap")
   maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
@@ -35,7 +36,7 @@ object Versions {
   const val okhttp = "4.10.0-RC1"
   const val phrase = "1.1.0"
   const val robolectric = "4.5-alpha-3"
-  const val sqlDelight = "1.4.4"
+  const val sqlDelight = "1.5.4"
   const val squareFlow = "1.0.0-alpha3"
   const val timber = "5.0.1"
   const val truth = "1.0"

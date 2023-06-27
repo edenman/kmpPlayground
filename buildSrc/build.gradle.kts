@@ -1,11 +1,8 @@
 repositories {
-  jcenter()
+  google()
+  mavenCentral()
 }
 
 plugins {
   `kotlin-dsl`
-}
-
-kotlinDslPluginOptions {
-  experimentalWarning.set(false)
 }

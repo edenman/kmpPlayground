@@ -14,9 +14,8 @@ import timber.log.Timber
 
 lateinit var imageLoader: ImageLoader
 
-@Suppress("unused")
-open // AndroidManifest.xml references this
-class PlaygroundApp : Application() {
+@Suppress("unused") // AndroidManifest.xml references this
+open class PlaygroundApp : Application() {
   override fun onCreate() {
     super.onCreate()
     initCoil()

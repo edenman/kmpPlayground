@@ -41,6 +41,7 @@ android {
   composeOptions {
     kotlinCompilerExtensionVersion = Versions.androidxCompose
   }
+    namespace = "com.coffeetrainlabs.kmpplayground"
 }
 
 kotlin {

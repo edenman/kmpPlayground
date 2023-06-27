@@ -21,7 +21,7 @@ class FooProviderTest {
           }
       }
       assertEquals(1, states.size)
-      assertEquals("", (states[0] as FooProvider.FooState.Loaded).foos[0])
+      assertEquals("Add", (states[0] as FooProvider.FooState.Loaded).foos[0])
       stateSubscription.cancel()
     }
   }

@@ -1,10 +1,5 @@
 import com.android.build.api.dsl.AndroidSourceSet
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
-import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
-import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
-import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 repositories(globalRepoList)
 
@@ -42,6 +37,7 @@ android {
     sourceCompatibility = Versions.javaVersion
     targetCompatibility = Versions.javaVersion
   }
+  namespace = "chat.quill.shareddata"
 }
 
 kotlin {
@@ -177,4 +173,20 @@ fun AndroidSourceSet.repointToFolder(
   manifest.srcFile("$folderName/AndroidManifest.xml")
   java.srcDirs("$folderName/kotlin")
   res.srcDirs("$folderName/res")
+}
+
+
+// Workaround for https://youtrack.jetbrains.com/issue/KT-56019/Gradle-8-configuration-debugFrameworkIosFat-and-configuration-debugFrameworkIosArm64-contain-identical-attribute-sets
+val myAttribute = Attribute.of("com.coffeetrainlabs.kmpplayground.workaround", String::class.java)
+
+configurations.named("releaseFrameworkIosFat").configure {
+  attributes {
+    attribute(myAttribute, "release-all")
+  }
+}
+
+configurations.named("debugFrameworkIosFat").configure {
+  attributes {
+    attribute(myAttribute, "debug-all")
+  }
 }
