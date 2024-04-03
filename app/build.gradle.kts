@@ -27,7 +27,6 @@ android {
   }
   kotlinOptions {
     jvmTarget = Versions.jvmTarget
-    languageVersion = Versions.kotlinLanguageVersion
     freeCompilerArgs = freeCompilerArgs +
         listOf(
           "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
@@ -39,7 +38,7 @@ android {
     compose = true
   }
   composeOptions {
-    kotlinCompilerExtensionVersion = Versions.androidxCompose
+    kotlinCompilerExtensionVersion = Versions.androidxComposeCompiler
   }
     namespace = "com.coffeetrainlabs.kmpplayground"
 }
@@ -58,6 +57,7 @@ dependencies {
 
   implementation(AndroidX.coreKtx)
   implementation(AndroidX.appcompat)
+  implementation(platform(AndroidX.composeBOM))
   implementation(AndroidX.composeAnimation)
   implementation(AndroidX.composeMaterial)
   implementation(AndroidX.composeUI)

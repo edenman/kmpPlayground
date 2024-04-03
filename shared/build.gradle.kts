@@ -63,7 +63,11 @@ kotlin {
       kotlinOptions.jvmTarget = Versions.jvmTarget
     }
   }
-  android()
+  androidTarget {
+    compilations.all {
+      kotlinOptions.jvmTarget = Versions.jvmTarget
+    }
+  }
 
   sourceSets {
     all {
@@ -120,7 +124,7 @@ kotlin {
         implementation(UrlDetector)
       }
     }
-    val androidTest by getting {
+    val androidUnitTest by getting {
       dependencies {
         implementation(kotlin("test-junit"))
         implementation(Kotlin.coroutinesTest)
@@ -176,17 +180,18 @@ fun AndroidSourceSet.repointToFolder(
 }
 
 
+// TODO is this still necessary?
 // Workaround for https://youtrack.jetbrains.com/issue/KT-56019/Gradle-8-configuration-debugFrameworkIosFat-and-configuration-debugFrameworkIosArm64-contain-identical-attribute-sets
-val myAttribute = Attribute.of("com.coffeetrainlabs.kmpplayground.workaround", String::class.java)
+//val myAttribute = Attribute.of("com.coffeetrainlabs.kmpplayground.workaround", String::class.java)
 
-configurations.named("releaseFrameworkIosFat").configure {
-  attributes {
-    attribute(myAttribute, "release-all")
-  }
-}
-
-configurations.named("debugFrameworkIosFat").configure {
-  attributes {
-    attribute(myAttribute, "debug-all")
-  }
-}
+//configurations.named("releaseFrameworkIosFat").configure {
+//  attributes {
+//    attribute(myAttribute, "release-all")
+//  }
+//}
+//
+//configurations.named("debugFrameworkIosFat").configure {
+//  attributes {
+//    attribute(myAttribute, "debug-all")
+//  }
+//}

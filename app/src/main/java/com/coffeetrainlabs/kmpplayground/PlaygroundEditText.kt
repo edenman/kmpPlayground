@@ -22,7 +22,7 @@ class PlaygroundEditText(context: Context, attrs: AttributeSet?) :
     ViewCompat.setOnReceiveContentListener(this, arrayOf("image/*", "video/*"), this)
   }
 
-  override fun onDraw(canvas: Canvas?) {
+  override fun onDraw(canvas: Canvas) {
     Timber.d("SPANZ calling EditText.onDraw")
     super.onDraw(canvas)
   }

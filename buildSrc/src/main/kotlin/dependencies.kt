@@ -13,25 +13,27 @@ val globalRepoList: RepositoryHandler.() -> Unit = {
 }
 
 object Versions {
-  val javaVersion = JavaVersion.VERSION_1_8
-  const val jvmTarget = "1.8"
-  const val kotlinLanguageVersion = "1.6"
-  const val compileSdkVersion = 31
+  val javaVersion = JavaVersion.VERSION_17
+  const val jvmTarget = "17"
+  const val kotlinLanguageVersion = "1.9"
+  const val compileSdkVersion = 34
   const val minSdkVersion = 26
-  const val targetSdkVersion = 31
+  const val targetSdkVersion = 34
 
   const val androidxAnnotations = "1.3.0-alpha01"
   const val androidxAppcompat = "1.4.0-beta01"
-  const val androidxCompose = "1.2.0-beta02"
+  const val androidxComposeBOM = "2024.03.00"
+  const val androidxComposeCompiler = "1.5.10"
+  const val androidxComposeMaterial3 = "1.2.0"
   const val androidxCore = "1.7.0-alpha01"
   const val androidxEmoji2 = "1.0.0-beta01"
   const val androidxTestCore = "1.2.0"
   const val coil = "1.3.0"
   const val coreTesting = "2.1.0"
   const val junit = "4.13"
-  const val kotlin = "1.6.21"
-  const val kotlinSerialization = "1.3.0"
-  const val kotlinCoroutines = "1.6.0"
+  const val kotlin = "1.9.22"
+  const val kotlinSerialization = "1.6.2"
+  const val kotlinCoroutines = "1.8.0-RC"
   const val ktor = "2.0.0-beta-1"
   const val material = "1.4.0-rc01"
   const val multiplatformSwiftPlugin = "2.0.3"
@@ -55,11 +57,12 @@ const val XmlAPIs = "xml-apis:xml-apis:${Versions.xmlAPIs}"
 object AndroidX {
   const val annotations = "androidx.annotation:annotation:${Versions.androidxAnnotations}"
   const val appcompat = "androidx.appcompat:appcompat:${Versions.androidxAppcompat}"
-  const val composeUI = "androidx.compose.ui:ui:${Versions.androidxCompose}"
-  const val composeMaterial = "androidx.compose.material:material:${Versions.androidxCompose}"
-  const val composeAnimation = "androidx.compose.animation:animation:${Versions.androidxCompose}"
-  const val composeUITooling = "androidx.compose.ui:ui-tooling:${Versions.androidxCompose}"
-  const val composeFoundation = "androidx.compose.foundation:foundation:${Versions.androidxCompose}"
+  const val composeBOM = "androidx.compose:compose-bom:${Versions.androidxComposeBOM}"
+  const val composeUI = "androidx.compose.ui:ui"
+  const val composeMaterial = "androidx.compose.material:material:${Versions.androidxComposeMaterial3}"
+  const val composeAnimation = "androidx.compose.animation:animation"
+  const val composeUITooling = "androidx.compose.ui:ui-tooling"
+  const val composeFoundation = "androidx.compose.foundation:foundation"
 
   const val coreKtx = "androidx.core:core-ktx:${Versions.androidxCore}"
   const val coreTesting = "androidx.arch.core:core-testing:${Versions.coreTesting}"
