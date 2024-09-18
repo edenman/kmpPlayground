@@ -36,7 +36,6 @@ object Versions {
   const val kotlinCoroutines = "1.8.1"
   const val ktor = "2.3.12"
   const val material = "1.4.0-rc01"
-  const val multiplatformSwiftPlugin = "2.0.3"
   const val okhttp = "4.12"
   const val phrase = "1.1.0"
   const val robolectric = "4.5-alpha-3"

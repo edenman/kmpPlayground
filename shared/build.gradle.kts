@@ -9,7 +9,6 @@ plugins {
   id("kotlin-parcelize")
   kotlin("plugin.serialization") version Versions.kotlin
   id("com.squareup.sqldelight")
-  id("com.chromaticnoise.multiplatform-swiftpackage") version Versions.multiplatformSwiftPlugin
 }
 
 sqldelight {
@@ -133,44 +132,6 @@ kotlin {
   }
 }
 
-
-multiplatformSwiftPackage {
-  swiftToolsVersion("5.3")
-  targetPlatforms {
-    iOS { v("13") }
-  }
-  packageName("QuillKMPSharedData")
-}
-
-val packForXcode by tasks.creating(Sync::class) {
-  val targetDir = File(buildDir, "xcode-frameworks")
-
-  // selecting the right configuration for the iOS
-  // framework depending on the environment
-  // variables set by Xcode build
-  val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
-  val framework = kotlin.targets
-    .getByName<KotlinNativeTarget>("ios")
-    .binaries.getFramework(mode)
-  inputs.property("mode", mode)
-  dependsOn(framework.linkTask)
-
-  from({ framework.outputDirectory })
-  into(targetDir)
-
-  // generate a helpful ./gradlew wrapper with embedded Java path
-  doLast {
-    val gradlew = File(targetDir, "gradlew")
-    gradlew.writeText(
-      "#!/bin/bash\n" +
-          "export 'JAVA_HOME=${System.getProperty("java.home")}'\n" +
-          "cd '${rootProject.rootDir}'\n" +
-          "./gradlew \$@\n"
-    )
-    gradlew.setExecutable(true)
-  }
-}
-
 fun AndroidSourceSet.repointToFolder(
   folderName: String
 ) {
@@ -178,20 +139,3 @@ fun AndroidSourceSet.repointToFolder(
   java.srcDirs("$folderName/kotlin")
   res.srcDirs("$folderName/res")
 }
-
-
-// TODO is this still necessary?
-// Workaround for https://youtrack.jetbrains.com/issue/KT-56019/Gradle-8-configuration-debugFrameworkIosFat-and-configuration-debugFrameworkIosArm64-contain-identical-attribute-sets
-//val myAttribute = Attribute.of("com.coffeetrainlabs.kmpplayground.workaround", String::class.java)
-
-//configurations.named("releaseFrameworkIosFat").configure {
-//  attributes {
-//    attribute(myAttribute, "release-all")
-//  }
-//}
-//
-//configurations.named("debugFrameworkIosFat").configure {
-//  attributes {
-//    attribute(myAttribute, "debug-all")
-//  }
-//}
